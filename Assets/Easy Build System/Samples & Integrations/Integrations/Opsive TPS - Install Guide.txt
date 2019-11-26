@@ -1,0 +1,22 @@
+This integration allows you to use Easy Build System with Opsive Third Person Controller.
+
+Feature(s) :
+
+	- Avoid the collision between the controller and the socket(s).
+
+Quick Install :
+
+	- Import Opsive TPS from Asset Store and Easy Build System(Without Project Settings).
+	- Go to Main Editor in the menu items (Tools/Easy Build System/Main Editor) or CTRL+SHIFT+E.
+	- Go to integration panel and enable the Opsive Third Person Controller by clicking on the check box and wait the end compilation.
+	- Then import the Opsive TPS integration package in the folder (Easy Build System/Samples & Integrations/Integrations/Opsive TPS Integration).
+	- Open one of the demos available in the package or on your own scene and run the Quick Start function by clicking in the menu items (Tools/Easy Build System/Utilities/Quick Start).
+	- Add the component SocketQueriesDetection on your Opsive Controller (this allow to avoid the collision with the sockets of system).
+
+Note(s) :
+
+	- It is important to add the component SocketQueriesDetection on your controller to avoid the collision with the socket(s).
+
+The integration has been tested only on the demo scene, however if you encounter problems, do not hesitate to report them to support.
+
+Github : https://github.com/AdsCryptoz22/EasyBuildSystem/wiki

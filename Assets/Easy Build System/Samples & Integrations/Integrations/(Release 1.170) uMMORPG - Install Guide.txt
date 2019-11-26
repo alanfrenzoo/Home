@@ -1,0 +1,38 @@
+This integration allows you to Easy Build System with the uMMORPG (1.170).
+
+Imporant : This integration is in development and experimental which means that a lot of feature is not yet available.
+
+Feature(s) :
+
+	- Smart Install with only one click.
+	- Allow the placement/destruction (with only owner feature) of parts in multiplayer.
+	- Build Storage component sync to load/save the parts in multiplayer.
+	- Keep authority placement/destruction allowed by the server logic.
+	- Physics system synchronized with the destruction of parts in the scene.
+	- Default parts ready to use also that pickable objects/icons pack in the package.
+
+Install :
+
+	[1] Import uMMORPG (With Project Settings) from Asset Store and Easy Build System (Without Project Settings).
+	[2] Import uMMORPG Integration package available in the folder Integrations.
+	[3] Go to Main Editor in the menu items (Tools/Easy Build System/Main Editor) or CTRL+SHIFT+E.
+	[4] Go to integration panel and enable the uMMORPG by clicking on the check box and wait the end compilation.
+	[5] Open one of the demos available in the package or on your own scene.
+	[6] Go to menu items (Tools/Easy Build System/Integration/UMMORPG Smart Install).
+
+	[Optional] You can select your NPC vendors to add the buildings items available in the folder
+		(Easy Build System/Samples & Integrations/Integrations/uMMORPG Integration/Resources/Items).
+
+	[Optional] You can drag and drop the prefab Build Storage(Easy Build System/Features/Resources/Prefabs) in your scene and set the settings to save/load your parts in multiplayer.
+
+Note(s) :
+
+	- If you want use your own building parts in multiplayer you need to add the component (Mirror)NetworkIdentity or use the default parts available in the integration package.
+	- For create your own building item, right click on your project folder (Create/uMMORPG Item/(Easy Build System) Building) and add your part in the field BuildingPart (you can also fill the field IsDestructionTool to allow to active the destruction mode when use)..
+	- You can change the Build Support to Surface in your Build Manager to improve the placement of foundation types (https://goo.gl/bQLUfY).
+	- If you have of problems of collision with the buildings parts, as players passes through. you can use the new NavMesh add-on available in the Build Manager.
+	- You can active the feature Destruction Only By Owner in the UMMORPG Addon in the Build Manager addon section.
+
+The integration has been tested only on the demo scene, however if you encounter problems, do not hesitate to report them to support.
+
+Github : https://github.com/AdsCryptoz22/EasyBuildSystem/wiki

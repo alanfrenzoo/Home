@@ -1,0 +1,28 @@
+Copyright © 2015-2019 by Ads Studio 12. All right reserved.
+
+Thanks you for have purchasing/updated Easy Build System (4.6).
+If you want use only the system you can remove the folder (Samples & Integrations).
+You can read the release notes to know all changes made on the current version.
+
+It is recommended to try all the samples scenes to get a complete idea of the system.
+This allows you to see all the features of the system.
+
+If you are having problems with the asset, please report it to support.
+Share your experiences with the system by write a review on the Asset Store Page.
+
+- (4.6) Release Note :
+
+	- The Build Storage save now correctly the appearance id.
+	- Fix scene view error for the (2019.3) during the Bounds Editing.
+	- Fix sync of parts for uSurvival integration (1.60).
+	- Add of notification when a field is empty like mesh bounds, terrain.
+
+----------------------
+
+Github (Wiki) : https://github.com/AdsCryptoz22/EasyBuildSystem/
+Discord : https://discord.gg/qFM6SNW
+Donate : https://www.paypal.me/AdsStudio12
+Facebook : https://www.facebook.com/AdsStudioQuebec/
+
+Asset Store Page : http://u3d.as/joB
+Unity Forum Thread : https://forum.unity3d.com/threads/ebs-modular-building-system.366086/

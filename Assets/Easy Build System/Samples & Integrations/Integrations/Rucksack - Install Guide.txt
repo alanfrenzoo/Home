@@ -1,0 +1,26 @@
+This integration allows you to use Easy Build System with Rucksack.
+
+Feature(s) :
+
+	- Allow the placement of building part by item.
+	- Destroy tool by item.
+
+Quick Install :
+
+	- Import Rucksack from Asset Store and Easy Build System(Without Project Settings).
+	- Go to Main Editor in the menu items (Tools/Easy Build System/Main Editor) or CTRL+SHIFT+E.
+	- Go to integration panel and enable the Rucksack by clicking on the check box and wait the end compilation.
+	- Then import the Rucksack integration package in the folder (Easy Build System/Samples & Integrations/Integrations/Rucksack Integration).
+	- Open one of the demos available in the package or on your own scene and run the Quick Start function by clicking in the menu items (Tools/Easy Build System/Utilities/Quick Start).
+	- Change the component UnityItemFactory (or UNetItemFactory if you use the multiplayer) by EbsItemFactory on the prefab of your scene _Managers.
+	- Now if you want create your own new building item or destroy tool, you need select the BuildItemDefinition when creating your item with Ruckstack Editor.
+
+Note(s) :
+
+	- It is important to use the same building parts in your items as your Part Collection.
+	- If you want your item to be a tool you only need to activate DestroyTool but leave the part field empty.
+	- You can follow the tutorials of the asset developer to add more feature(s).
+
+The integration has been tested only on the demo scene, however if you encounter problems, do not hesitate to report them to support.
+
+Github : https://github.com/AdsCryptoz22/EasyBuildSystem/wiki

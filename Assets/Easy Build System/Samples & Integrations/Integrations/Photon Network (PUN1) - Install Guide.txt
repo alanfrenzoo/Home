@@ -1,0 +1,29 @@
+This integration allows you to use Easy Build System with Photon Network (PUN2).
+
+Feature(s) :
+
+	- Allow the placement/destruction/edition of parts in multiplayer with the Photon Network.
+	- Build Storage component sync to load/save the parts in multiplayer.
+	- Physics system synchronized with the destruction of parts in the scene.
+
+Quick Install :
+
+	- Import Photon Network from Asset Store and Easy Build System(Without Project Settings).
+	- Go to Main Editor in the menu items (Tools/Easy Build System/Main Editor) or CTRL+SHIFT+E.
+	- Go to integration panel and enable the Photon Network by clicking on the check box and wait the end compilation.
+	- Then import the Photon Network integration package in the folder (Easy Build System/Samples & Integrations/Integrations/Photon Network Integration).
+	- Open one of the demos available in the package or on your own scene.
+	- Drag and drop your player controller in the scene then run the Quick Start function by clicking in the menu items (Tools/Easy Build System/Utilities/Quick Start).
+	- Add the component PhotonPlayersHandlers on your player controller (allow to sync the actions of system).
+	- Apply the change and remove your player controller from your scene.
+	- Now drag and drop in your scene the prefab Photon Managers available in the folder (Easy Build System/Samples & Integrations/Integrations/Photon Network Integration/Prefabs).
+	- Add the Parts Collection (Easy Build System/Samples & Integrations/Integrations/Photon Network Integration/Prefabs/Photon Parts Collection) in the Build Manager of your scene or own parts collection.
+	- (Optional) You can add the component PhotonBuildStorage with the component BuildStorage on a new empty prefab if you want load/save your buildings placement in multiplayer.
+
+Note(s) :
+
+	- If you want use your own building parts in multiplayer you need to add the component PhotonView or use the default parts available in the integration package.
+
+The integration has been tested only on the demo scene, however if you encounter problems, do not hesitate to report them to support.
+
+Github : https://github.com/AdsCryptoz22/EasyBuildSystem/wiki

@@ -1,0 +1,159 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &793338405573485609
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7528542266664711188}
+  - component: {fileID: 2739719352186046585}
+  m_Layer: 0
+  m_Name: MooseHead Part
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7528542266664711188
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 793338405573485609}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 5033192438247262343}
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2739719352186046585
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 793338405573485609}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea4923a9389590a47b94824728a5ade5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AdvancedFeatures: 1
+  Id: 11
+  Name: MooseHead Part
+  Type: 0
+  OccupancyParts: []
+  FreePlacement: 0
+  AvoidClipping: 1
+  AvoidClippingOnSocket: 0
+  AvoidAnchoredOnSocket: 0
+  RequireSockets: 0
+  UseGroundUpper: 0
+  GroundUpperHeight: 1
+  RotateOnSockets: 0
+  RotateAccordingSlope: 0
+  RotationAxis: {x: 0, y: 90, z: 0}
+  PreviewOffset: {x: 0, y: 0.03, z: 0}
+  PreviewDisableObjects: []
+  PreviewDisableBehaviours: []
+  PreviewDisableColliders: []
+  PreviewUseColorLerpTime: 0
+  PreviewColorLerpTime: 15
+  PreviewMaterial: {fileID: 0}
+  UseAppearances: 0
+  Appearances: []
+  AppearanceIndex: 0
+  MeshBounds:
+    m_Center: {x: 0, y: 0.2, z: 0.3}
+    m_Extent: {x: 0.5, y: 0.4, z: 0.3}
+  UseConditionalPhysics: 0
+  PhysicsLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  PhysicsLifeTime: 5
+  PhysicsConvexOnAffected: 1
+  PhysicsOnlyStablePlacement: 0
+  PhysicsIgnoreTags: []
+  CustomDetections: []
+  UseTerrainPrevention: 0
+  TerrainBounds:
+    m_Center: {x: 0, y: 0, z: 0}
+    m_Extent: {x: 0, y: 0, z: 0}
+  EntityInstanceId: 0
+  CurrentState: 4
+  LastState: 0
+  AffectedByPhysics: 0
+  LinkedParts: []
+  Colliders: []
+  Renderers: []
+  Sockets: []
+  ExtraProperties: []
+--- !u!1001 &5032464615052000197
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 7528542266664711188}
+    m_Modifications:
+    - target: {fileID: 1196660105724704, guid: 141120e27a0829c4cb6671794e992885, type: 3}
+      propertyPath: m_Name
+      value: SM_Prop_MooseHead_02
+      objectReference: {fileID: 0}
+    - target: {fileID: 4391709203804994, guid: 141120e27a0829c4cb6671794e992885, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4391709203804994, guid: 141120e27a0829c4cb6671794e992885, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4391709203804994, guid: 141120e27a0829c4cb6671794e992885, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4391709203804994, guid: 141120e27a0829c4cb6671794e992885, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4391709203804994, guid: 141120e27a0829c4cb6671794e992885, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4391709203804994, guid: 141120e27a0829c4cb6671794e992885, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4391709203804994, guid: 141120e27a0829c4cb6671794e992885, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4391709203804994, guid: 141120e27a0829c4cb6671794e992885, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4391709203804994, guid: 141120e27a0829c4cb6671794e992885, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4391709203804994, guid: 141120e27a0829c4cb6671794e992885, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4391709203804994, guid: 141120e27a0829c4cb6671794e992885, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 141120e27a0829c4cb6671794e992885, type: 3}
+--- !u!4 &5033192438247262343 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4391709203804994, guid: 141120e27a0829c4cb6671794e992885,
+    type: 3}
+  m_PrefabInstance: {fileID: 5032464615052000197}
+  m_PrefabAsset: {fileID: 0}

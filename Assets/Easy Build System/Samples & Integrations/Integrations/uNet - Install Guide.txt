@@ -1,0 +1,26 @@
+This integration allows you to use Easy Build System with UNet.
+
+Feature(s) :
+
+	- Allow the placement/destruction/edition of parts in multiplayer with the UNet.
+	- Build Storage component sync to load/save the parts in multiplayer.
+	- Physics system synchronized with the destruction of parts in the scene.
+
+Quick Install :
+
+	- Import the UNet integration package in the folder (Easy Build System/Samples & Integrations/Integrations/UNet Integration).
+	- Open your own scene with your own network structure.
+	- Drag and drop your player controller in the scene then run the Quick Start function by clicking in the menu items (Tools/Easy Build System/Utilities/Quick Start).
+	- Add the component uNetPlayerHandlers on your player controller (allow to sync the actions of system).
+	- Apply the change and remove your player controller from your scene.
+	- Now drag and drop in your scene the prefab UNet Managers available in the folder (Easy Build System/Samples & Integrations/Integrations/UNet Integration/Prefabs).
+	- Add the Parts Collection (Easy Build System/Samples & Integrations/Integrations/UNet Integration/Prefabs/UNet Parts Collection) in the Build Manager of your scene or own parts collection.
+	- (Optional) You can add the component uNetBuildStorage with the component BuildStorage on a new empty prefab if you want load/save your buildings placement in multiplayer.
+
+Note(s) :
+
+	- If you want use your own building parts in multiplayer you need to add the component NetworkIdentity or use the default parts available in the integration package.
+
+The integration has been tested only on the demo scene, however if you encounter problems, do not hesitate to report them to support.
+
+Github : https://github.com/AdsCryptoz22/EasyBuildSystem/wiki
