@@ -676,6 +676,7 @@
     <Compile Include="Assets\Easy Build System\Samples &amp; Integrations\Samples\Samples Contents\The Forest Like\Scripts\PickableController.cs" />
     <Compile Include="Assets\MobileConsole\Scripts\MobileConsole.cs" />
     <Compile Include="Assets\MobileConsole\Scripts\Style.cs" />
+    <Compile Include="Assets\Scripts\ControlManager.cs" />
     <Compile Include="Assets\Scripts\DestroySystem.cs" />
     <Compile Include="Assets\Scripts\DestroyTagComponent.cs" />
     <Compile Include="Assets\Scripts\FurniTagComponent.cs" />
@@ -686,7 +687,6 @@
     <Compile Include="Assets\Scripts\StressTest\MoveDownTag.cs" />
     <Compile Include="Assets\Scripts\StressTest\MovingTag.cs" />
     <Compile Include="Assets\Scripts\StressTest\Spawner.cs" />
-    <Compile Include="Assets\Scripts\Test_Control.cs" />
     <Compile Include="Assets\Tayx\Graphy - Ultimate Stats Monitor\Scene\Color Picker\G_CUIColorPicker.cs" />
     <Compile Include="Assets\Tayx\Graphy - Ultimate Stats Monitor\Scene\Customization Scripts\CustomizeGraphy.cs" />
     <Compile Include="Assets\Tayx\Graphy - Ultimate Stats Monitor\Scene\Customization Scripts\ForceSliderToMultipleOf3.cs" />

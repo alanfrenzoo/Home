@@ -13,15 +13,16 @@ public class DestroySystem : ComponentSystem
     protected override void OnUpdate()
     {
         Entities.WithAllReadOnly<DestroyTag>().ForEach(
-            (Entity destroy_id, ref Translation destroy_tranlation) =>
+            (Entity destroy_id, ref Translation destroy_tranlation, ref DestroyTag destroy_index) =>
             {
                 var t = destroy_tranlation;
+                var i = destroy_index;
+
                 Entities.WithAllReadOnly<FurniTag>().ForEach(
                     (Entity furni_id, ref Translation furni_tranlation, ref FurniTag index) =>
                     {
-                        if(t.Equals(furni_tranlation))
+                        if (t.Equals(furni_tranlation) && i.Value == index.Value)
                         {
-
                             BuilderBehaviour.Instance.SelectPrefab(BuildManager.Instance.PartsCollection.Parts[index.Value]);
                             BuilderBehaviour.Instance.ChangeMode(BuildMode.Placement);
 
@@ -29,15 +30,15 @@ public class DestroySystem : ComponentSystem
                             BuilderBehaviour.Instance.CreatePreview(BuilderBehaviour.Instance.SelectedPrefab.gameObject);
                             BuilderBehaviour.Instance.CurrentPreview.transform.position = furni_tranlation.Value;
 
-                            Test_Control.currentFurniIndex = index.Value;
+                            ControlManager.currentFurniIndex = index.Value;
                             EntityManager.DestroyEntity(furni_id); //destroy-wise with all its children
                             EntityManager.DestroyEntity(destroy_id);
-                            
+
                         }
 
                     }
                 );
-                
+
             }
         );
 

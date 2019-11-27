@@ -673,6 +673,16 @@ namespace EasyBuildSystem.Runtimes.Internal.Part
                                         Results[i] = true;
                                     }
                                 }
+                                if (ControlManager.instance.isUsingECS)
+                                {
+                                    if (CustomDetections[i].RequiredSupports.ToList().Contains(SurfaceType.Desk))
+                                    {
+                                        if (Colliders[x].tag == "Desk")
+                                        {
+                                            Results[i] = true;
+                                        }
+                                    }
+                                }
                             }
                         }
                     }

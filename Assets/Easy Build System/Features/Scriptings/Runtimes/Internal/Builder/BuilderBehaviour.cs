@@ -30,7 +30,8 @@ namespace EasyBuildSystem.Runtimes.Internal.Builder
     {
         Normal,
         Smooth,
-        Grid
+        Grid,
+        GridwFreeHeight
     }
 
     public enum RayType
@@ -330,6 +331,11 @@ namespace EasyBuildSystem.Runtimes.Internal.Builder
                     CurrentPreview.transform.position = MathExtension.PositionToGridPosition(PreviewGridSize, PreviewGridOffset, Hit.point + CurrentPreview.PreviewOffset);
                 else if (PreviewMovementType == MovementType.Smooth)
                     CurrentPreview.transform.position = Vector3.Lerp(CurrentPreview.transform.position, Hit.point + CurrentPreview.PreviewOffset, PreviewSmoothTime * Time.deltaTime);
+                else if (PreviewMovementType == MovementType.GridwFreeHeight)
+                {
+                    CurrentPreview.transform.position = MathExtension.PositionToGridPosition(PreviewGridSize, PreviewGridOffset, Hit.point + CurrentPreview.PreviewOffset);
+                    CurrentPreview.transform.position = new Vector3(CurrentPreview.transform.position.x, Hit.point.y + CurrentPreview.PreviewOffset.y, CurrentPreview.transform.position.z);
+                }
 
                 if (!CurrentPreview.RotateAccordingSlope)
                 {
@@ -394,6 +400,11 @@ namespace EasyBuildSystem.Runtimes.Internal.Builder
                 CurrentPreview.transform.position = MathExtension.PositionToGridPosition(PreviewGridSize, PreviewGridOffset, LookDistance + CurrentPreview.PreviewOffset);
             else if (PreviewMovementType == MovementType.Smooth)
                 CurrentPreview.transform.position = Vector3.Lerp(CurrentPreview.transform.position, LookDistance, PreviewSmoothTime * Time.deltaTime);
+            else if (PreviewMovementType == MovementType.GridwFreeHeight)
+            {
+                CurrentPreview.transform.position = MathExtension.PositionToGridPosition(PreviewGridSize, PreviewGridOffset, LookDistance + CurrentPreview.PreviewOffset);
+                CurrentPreview.transform.position = new Vector3(CurrentPreview.transform.position.x, LookDistance.y, CurrentPreview.transform.position.z);
+            }
 
             CurrentSocket = null;
 

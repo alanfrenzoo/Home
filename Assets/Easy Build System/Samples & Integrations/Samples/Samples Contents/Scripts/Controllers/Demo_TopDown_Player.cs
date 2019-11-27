@@ -3,6 +3,7 @@ using EasyBuildSystem.Runtimes.Events;
 using EasyBuildSystem.Runtimes.Internal.Builder;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.EventSystems;
 
 public class Demo_TopDown_Player : MonoBehaviour
 {
@@ -37,7 +38,7 @@ public class Demo_TopDown_Player : MonoBehaviour
 
     private void Update()
     {
-        if (UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject(0) || UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject(1) || UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())
+        if (EventSystem.current && (EventSystem.current.IsPointerOverGameObject(0) || EventSystem.current.IsPointerOverGameObject(1) || EventSystem.current.IsPointerOverGameObject()))
             return;
 
         if (Input.GetMouseButton(0))

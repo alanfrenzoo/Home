@@ -251,7 +251,7 @@ namespace EasyBuildSystem.Editor.Internal.Builder
                 if ((MovementType)serializedObject.FindProperty("PreviewMovementType").enumValueIndex == MovementType.Smooth)
                     EditorGUILayout.PropertyField(serializedObject.FindProperty("PreviewSmoothTime"), new GUIContent("Preview Movement Smooth Time :", "This allows to define the smooth time movement."));
 
-                if ((MovementType)serializedObject.FindProperty("PreviewMovementType").enumValueIndex == MovementType.Grid)
+                if ((MovementType)serializedObject.FindProperty("PreviewMovementType").enumValueIndex == MovementType.Grid || (MovementType)serializedObject.FindProperty("PreviewMovementType").enumValueIndex == MovementType.GridwFreeHeight)
                 {
                     EditorGUILayout.PropertyField(serializedObject.FindProperty("PreviewGridSize"), new GUIContent("Preview Grid Size :", "This allows to define the grid size on which the preview will be moved."));
 

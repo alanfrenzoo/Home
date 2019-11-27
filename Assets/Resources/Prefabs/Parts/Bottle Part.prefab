@@ -75,7 +75,7 @@ MonoBehaviour:
   UseConditionalPhysics: 1
   PhysicsLayers:
     serializedVersion: 2
-    m_Bits: 1
+    m_Bits: 1025
   PhysicsLifeTime: 5
   PhysicsConvexOnAffected: 1
   PhysicsOnlyStablePlacement: 1
@@ -83,7 +83,7 @@ MonoBehaviour:
   CustomDetections:
   - Position: {x: 0, y: 0, z: 0}
     Size: {x: 0, y: 0.1, z: 0}
-    RequiredSupports: 00000000
+    RequiredSupports: 0000000008000000
   UseTerrainPrevention: 0
   TerrainBounds:
     m_Center: {x: 0, y: 0, z: 0}

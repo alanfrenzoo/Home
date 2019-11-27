@@ -75,7 +75,7 @@ MonoBehaviour:
   UseConditionalPhysics: 1
   PhysicsLayers:
     serializedVersion: 2
-    m_Bits: 1
+    m_Bits: 1025
   PhysicsLifeTime: 5
   PhysicsConvexOnAffected: 1
   PhysicsOnlyStablePlacement: 1

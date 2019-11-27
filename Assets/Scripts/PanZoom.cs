@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class PanZoom : MonoBehaviour
 {
@@ -25,11 +26,11 @@ public class PanZoom : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Test_Control.instance.Editing)
+        if (ControlManager.instance.Editing)
             return;
 
         // Over UI
-        if (UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject(0) || UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject(1) || UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())
+        if (EventSystem.current && (EventSystem.current.IsPointerOverGameObject(0) || EventSystem.current.IsPointerOverGameObject(1) || EventSystem.current.IsPointerOverGameObject()))
             return;
 
 #if UNITY_EDITOR

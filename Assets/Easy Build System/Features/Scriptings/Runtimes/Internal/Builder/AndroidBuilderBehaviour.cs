@@ -2,6 +2,7 @@
 using EasyBuildSystem.Runtimes.Internal.Builder;
 using EasyBuildSystem.Runtimes.Internal.Managers;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 [AddComponentMenu("Easy Build System/Features/Builders Behaviour/Android Builder Behaviour")]
 public class AndroidBuilderBehaviour : BuilderBehaviour
@@ -21,7 +22,7 @@ public class AndroidBuilderBehaviour : BuilderBehaviour
     {
         // pointerId default: -1
         // 0 is the first finger, 1 is the second finger
-        if (UnityEngine.EventSystems.EventSystem.current && (UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject(0) || UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject(1) || UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject()))
+        if (EventSystem.current && (EventSystem.current.IsPointerOverGameObject(0) || EventSystem.current.IsPointerOverGameObject(1) || EventSystem.current.IsPointerOverGameObject()))
             return;
 
         base.Update();
