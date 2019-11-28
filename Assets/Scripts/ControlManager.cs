@@ -203,9 +203,22 @@ public class ControlManager : MonoBehaviour
         colliderToSpawn.transform.position = position;
         colliderToSpawn.transform.rotation = rotation;
         colliderToSpawn.layer = LayerMask.NameToLayer("Furniture");
-        // Hard code for stable support
+
         if (BuilderBehaviour.Instance.CurrentPreview.Type == EasyBuildSystem.Runtimes.Internal.Part.PartType.Desk)
+        {
+            // Hard code for stable support
             colliderToSpawn.tag = "Desk";
+
+            // Hard code for Desk Spot
+            var spotdl = new GameObject("spot_desk_l");
+            spotdl.transform.SetParent(colliderToSpawn.transform);
+            spotdl.transform.localPosition = new Vector3(-2f, 0f, 0f);
+            spotdl.transform.localRotation = Quaternion.Euler(new Vector3(0f, 90f, 0f));
+            var spotdr = new GameObject("spot_desk_r");
+            spotdr.transform.SetParent(colliderToSpawn.transform);
+            spotdr.transform.localPosition = new Vector3(2f, 0f, 0f);
+            spotdr.transform.localRotation = Quaternion.Euler(new Vector3(0f, -90f, 0f));
+        }
 
         var colliderList = objectEntity.GetComponentsInChildren<MeshCollider>();
         if (colliderList.Length > 1)
@@ -218,6 +231,17 @@ public class ControlManager : MonoBehaviour
                 child.transform.SetParent(colliderToSpawn.transform);
                 child.transform.localPosition = colliderList[i].transform.localPosition;
                 child.transform.localRotation = colliderList[i].transform.localRotation;
+
+                // Hard code for Chair Spot
+                // Hard code for Desk Spot
+                var spotcl = new GameObject("spot_chair_l");
+                spotcl.transform.SetParent(child.transform);
+                spotcl.transform.localPosition = new Vector3(-1f, 0f, 0f);
+                spotcl.transform.localRotation = Quaternion.Euler(new Vector3(0f, 90f, 0f));
+                var spotcr = new GameObject("spot_chair_r");
+                spotcr.transform.SetParent(child.transform);
+                spotcr.transform.localPosition = new Vector3(1f, 0f, 0f);
+                spotcr.transform.localRotation = Quaternion.Euler(new Vector3(0f, -90f, 0f));
             }
         }
 
