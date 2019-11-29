@@ -83,7 +83,7 @@ namespace EasyBuildSystem.Runtimes.Internal.Terrain
             for (int Layer = 0; Layer < Data.detailPrototypes.Length; Layer++)
                 TerrainDetails.Add(Layer, Data.GetDetailLayer(0, 0, Data.detailWidth, Data.detailHeight, Layer));
 
-            TerrainHeights = Data.GetHeights(0, 0, Data.heightmapWidth, Data.heightmapHeight);
+            TerrainHeights = Data.GetHeights(0, 0, Data.heightmapResolution, Data.heightmapResolution);
         }
 
         /// <summary>

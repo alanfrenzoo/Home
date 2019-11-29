@@ -14,7 +14,7 @@ public class MoveDownSystem : ComponentSystem
         Entities.WithAllReadOnly<MoveDownTag, MovingTag>().ForEach(
             (Entity id, ref Translation translation) =>
             {
-                var deltaTime = Time.deltaTime;
+                var deltaTime = Time.DeltaTime;
                 translation = new Translation()
                 {
                     Value = new float3(translation.Value.x, translation.Value.y, translation.Value.z - deltaTime)

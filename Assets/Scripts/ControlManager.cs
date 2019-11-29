@@ -23,6 +23,7 @@ public class ControlManager : MonoBehaviour
     public Button RotateButton;
     public Button DestructionButton;
 
+    private GameObjectConversionSettings settings;
     private EntityManager entityManager;
     private Dictionary<int, Entity> indexEntityPair;
 
@@ -40,7 +41,8 @@ public class ControlManager : MonoBehaviour
     {
         instance = this;
 
-        entityManager = World.Active.EntityManager;
+        settings = GameObjectConversionSettings.FromWorld(World.DefaultGameObjectInjectionWorld, null);
+        entityManager = World.DefaultGameObjectInjectionWorld.EntityManager;
         indexEntityPair = new Dictionary<int, Entity>();
 
         ValidateButton.onClick.AddListener(() =>
@@ -94,7 +96,7 @@ public class ControlManager : MonoBehaviour
                 else
                 {
                     // Create entity prefab from the game object hierarchy once
-                    prefab = GameObjectConversionUtility.ConvertGameObjectHierarchy(workingObject, World.Active);
+                    prefab = GameObjectConversionUtility.ConvertGameObjectHierarchy(workingObject, settings);
                     indexEntityPair[currentFurniIndex] = prefab;
                 }
 
@@ -183,7 +185,7 @@ public class ControlManager : MonoBehaviour
         else
         {
             // Create entity prefab from the game object hierarchy once
-            prefab = GameObjectConversionUtility.ConvertGameObjectHierarchy(objectEntity, World.Active);
+            prefab = GameObjectConversionUtility.ConvertGameObjectHierarchy(objectEntity, settings);
             indexEntityPair[currentFurniIndex] = prefab;
         }
 
