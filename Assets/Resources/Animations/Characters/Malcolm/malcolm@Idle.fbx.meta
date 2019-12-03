@@ -1,11 +1,11 @@
 fileFormatVersion: 2
-guid: 979da9cab8bd85947a0ab1f3f7c09f84
+guid: 0b01ba810bac3ab489f0bf70a1bdb3ba
 ModelImporter:
   serializedVersion: 19300
   internalIDToNameTable:
   - first:
       74: -203655887218126122
-    second: Talk
+    second: Idle
   externalObjects: {}
   materials:
     materialImportMode: 1
@@ -35,11 +35,11 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Talk
+      name: Idle
       takeName: mixamo.com
       internalID: 0
       firstFrame: 0
-      lastFrame: 178
+      lastFrame: 499
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -121,7 +121,7 @@ ModelImporter:
   autoGenerateAvatarMappingIfUnspecified: 1
   animationType: 2
   humanoidOversampling: 1
-  avatarSetup: 1
+  avatarSetup: 0
   additionalBone: 0
   userData: 
   assetBundleName: 
