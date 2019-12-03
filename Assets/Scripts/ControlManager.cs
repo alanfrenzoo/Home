@@ -17,18 +17,22 @@ public class ControlManager : MonoBehaviour
     public static ControlManager instance;
     public bool isUsingECS = false;
 
+    #region furniture menu variables
     public GameObject BuildContent;
     public Button ValidateButton;
     public Button CancelButton;
     public Button RotateButton;
     public Button DestructionButton;
+    #endregion
 
+    #region ecs variables
     private GameObjectConversionSettings settings;
     private EntityManager entityManager;
     private Dictionary<int, Entity> indexEntityPair;
 
     public static int currentFurniIndex;
     private GameObject currentCollider;
+    #endregion
 
     private bool editing = false;
     public bool Editing
@@ -36,6 +40,9 @@ public class ControlManager : MonoBehaviour
         get { return editing; }
         set { editing = value; }
     }
+
+    public List<Desk> DeskList;
+    public List<Desk> AvailableDeskList;
 
     public void Start()
     {
@@ -45,6 +52,7 @@ public class ControlManager : MonoBehaviour
         entityManager = World.DefaultGameObjectInjectionWorld.EntityManager;
         indexEntityPair = new Dictionary<int, Entity>();
 
+#region furniture menu
         ValidateButton.onClick.AddListener(() =>
         {
             // To confirm Placement or Edition (moving)
@@ -156,6 +164,10 @@ public class ControlManager : MonoBehaviour
             BuilderBehaviour.Instance.ChangeMode(BuildMode.Edition);
             BuildContent.SetActive(false);
         });
+        #endregion
+
+        DeskList = new List<Desk>();
+        AvailableDeskList = new List<Desk>();
     }
 
     private void ECS_PlacePrefab()
@@ -206,8 +218,11 @@ public class ControlManager : MonoBehaviour
         colliderToSpawn.transform.rotation = rotation;
         colliderToSpawn.layer = LayerMask.NameToLayer("Furniture");
 
+        bool importDeskandChair = false;
         if (BuilderBehaviour.Instance.CurrentPreview.Type == EasyBuildSystem.Runtimes.Internal.Part.PartType.Desk)
         {
+            importDeskandChair = true;
+
             // Hard code for stable support
             colliderToSpawn.tag = "Desk";
 
@@ -225,6 +240,8 @@ public class ControlManager : MonoBehaviour
         var colliderList = objectEntity.GetComponentsInChildren<MeshCollider>();
         if (colliderList.Length > 1)
         {
+            List<Chair> chairList = new List<Chair>();
+
             for (int i = 1; i < colliderList.Length; i++)
             {
                 var child = new GameObject("");
@@ -244,6 +261,14 @@ public class ControlManager : MonoBehaviour
                 spotcr.transform.SetParent(child.transform);
                 spotcr.transform.localPosition = new Vector3(1f, 0f, 0f);
                 spotcr.transform.localRotation = Quaternion.Euler(new Vector3(0f, -90f, 0f));
+
+                chairList.Add(new Chair(child.transform.position, new Vector3[2] { spotcl.transform.position, spotcr.transform.position }));
+            }
+            if (importDeskandChair)
+            {
+                Desk newDesk = new Desk(colliderToSpawn.transform.position, chairList.ToArray());
+                DeskList.Add(newDesk);
+                AvailableDeskList.Add(newDesk);
             }
         }
 
