@@ -56,7 +56,7 @@ public class TransformRecorderAuthoring : MonoBehaviour,  IConvertGameObjectToEn
             TransformSamplesBlob = blobBuilder.CreateBlobAssetReference<TransformSamples>(Allocator.Persistent)
         });
 
-        dstManager.AddComponentData(entity, new SampledAnimationClipStartTag { Value = 1 });
+        dstManager.AddComponentData(entity, new SampledAnimationClipStartTag { Value = 0 });
         
         blobBuilder.Dispose();
     }
