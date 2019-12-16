@@ -2928,6 +2928,7 @@ GameObject:
   - component: {fileID: 6787147164157965687}
   - component: {fileID: 626427791852004350}
   - component: {fileID: 2485640779487004907}
+  - component: {fileID: 4332592891728311415}
   m_Layer: 0
   m_Name: remy
   m_TagString: Untagged
@@ -2944,7 +2945,7 @@ Transform:
   m_GameObject: {fileID: 9097560196324391503}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_Children:
   - {fileID: 4629069849556471551}
   - {fileID: 5845655529585799825}
@@ -2977,7 +2978,7 @@ MonoBehaviour:
   defaultPlayingClipIndex: 0
   rootMotionEnabled: 0
   lodEnabled: 1
-  cullingMode: 1
+  cullingMode: 0
 --- !u!23 &626427791852004350
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -3025,6 +3026,28 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9097560196324391503}
   m_Mesh: {fileID: 4300000, guid: 799c8d9cf20023142ab02676b7bfe564, type: 2}
+--- !u!195 &4332592891728311415
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9097560196324391503}
+  m_Enabled: 1
+  m_AgentTypeID: -334000983
+  m_Radius: 0.6
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 3.7
+  m_BaseOffset: -0.1
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
 --- !u!1 &9113227411456839210
 GameObject:
   m_ObjectHideFlags: 0
