@@ -9,4 +9,4 @@ public struct DestroyTag : IComponentData
 {
     public int Value;
 }
-public class DestroyTagComponent : ComponentDataProxy<FurniTag> { }
+public class DestroyTagComponent : ComponentDataProxy<DestroyTag> { }

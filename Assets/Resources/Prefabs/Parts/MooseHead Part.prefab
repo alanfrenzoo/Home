@@ -105,6 +105,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_Prop_MooseHead_02
       objectReference: {fileID: 0}
+    - target: {fileID: 1196660105724704, guid: 141120e27a0829c4cb6671794e992885, type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
     - target: {fileID: 4391709203804994, guid: 141120e27a0829c4cb6671794e992885, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

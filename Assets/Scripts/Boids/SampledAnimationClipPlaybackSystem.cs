@@ -12,7 +12,7 @@ namespace Samples.Boids
         {
             var deltaTime = math.min(0.05f,Time.DeltaTime);
             
-            var transformJobHandle = Entities.ForEach((ref Translation translation, ref Rotation rotation, in SampledAnimationClip sampledAnimationClip) =>
+            var transformJobHandle = Entities.ForEach((ref Translation translation, ref Rotation rotation, ref NonUniformScale scale, in SampledAnimationClip sampledAnimationClip) =>
             {
                 var frameIndex = sampledAnimationClip.FrameIndex;
                 var timeOffset = sampledAnimationClip.TimeOffset;
@@ -22,9 +22,13 @@ namespace Samples.Boids
                 var nextTranslation = sampledAnimationClip.TransformSamplesBlob.Value.TranslationSamples[frameIndex+1];
                 var prevRotation    = sampledAnimationClip.TransformSamplesBlob.Value.RotationSamples[frameIndex];
                 var nextRotation    = sampledAnimationClip.TransformSamplesBlob.Value.RotationSamples[frameIndex+1];
-                
+                var prevScale = sampledAnimationClip.TransformSamplesBlob.Value.ScaleSamples[frameIndex];
+                var nextScale = sampledAnimationClip.TransformSamplesBlob.Value.ScaleSamples[frameIndex + 1];
+
                 translation.Value = math.lerp(prevTranslation, nextTranslation, timeOffset);
                 rotation.Value = math.slerp(prevRotation, nextRotation, timeOffset);
+                scale.Value = math.lerp(prevScale, nextScale, timeOffset);
+
             }).Schedule(inputDeps);
 
             var clipJobHandle = Entities.ForEach((ref SampledAnimationClipStartTag tag, ref SampledAnimationClip sampledAnimationClip) =>

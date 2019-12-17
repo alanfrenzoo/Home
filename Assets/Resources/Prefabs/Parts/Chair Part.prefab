@@ -108,6 +108,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_Prop_Chair_02
       objectReference: {fileID: 0}
+    - target: {fileID: 1991082771421754, guid: 4bdd9be90e0cec0449d741f8fb1068c3, type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
     - target: {fileID: 4133556709840642, guid: 4bdd9be90e0cec0449d741f8fb1068c3, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

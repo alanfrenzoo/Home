@@ -70,8 +70,8 @@ MonoBehaviour:
   Appearances: []
   AppearanceIndex: 0
   MeshBounds:
-    m_Center: {x: 0, y: 0.75, z: 0}
-    m_Extent: {x: 1.2, y: 0.5, z: 0.65000004}
+    m_Center: {x: 0, y: 0.6, z: 0}
+    m_Extent: {x: 1.25, y: 0.55, z: 0.65000004}
   UseConditionalPhysics: 1
   PhysicsLayers:
     serializedVersion: 2
@@ -107,6 +107,10 @@ PrefabInstance:
     - target: {fileID: 1585270781345762, guid: a36baff2fbd033844b0656f33e57737c, type: 3}
       propertyPath: m_Name
       value: SM_Prop_Desk_02
+      objectReference: {fileID: 0}
+    - target: {fileID: 1585270781345762, guid: a36baff2fbd033844b0656f33e57737c, type: 3}
+      propertyPath: m_Layer
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 4706452781880594, guid: a36baff2fbd033844b0656f33e57737c, type: 3}
       propertyPath: m_LocalPosition.x
@@ -152,6 +156,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 33774688893888434, guid: a36baff2fbd033844b0656f33e57737c,
+        type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 4300000, guid: 471e5f7a03940164580615fa0367fde7, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a36baff2fbd033844b0656f33e57737c, type: 3}
 --- !u!4 &7513700100593617219 stripped

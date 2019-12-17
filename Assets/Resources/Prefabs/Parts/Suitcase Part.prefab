@@ -104,9 +104,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4020909266734344921}
     m_Modifications:
+    - target: {fileID: 1042869313859010, guid: e9f2a76b2e3cab14c89f2b95c9dd31e3, type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
     - target: {fileID: 1967322254841212, guid: e9f2a76b2e3cab14c89f2b95c9dd31e3, type: 3}
       propertyPath: m_Name
       value: SM_Prop_Suitcase_03
+      objectReference: {fileID: 0}
+    - target: {fileID: 1967322254841212, guid: e9f2a76b2e3cab14c89f2b95c9dd31e3, type: 3}
+      propertyPath: m_Layer
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 4538062251220234, guid: e9f2a76b2e3cab14c89f2b95c9dd31e3, type: 3}
       propertyPath: m_LocalPosition.x

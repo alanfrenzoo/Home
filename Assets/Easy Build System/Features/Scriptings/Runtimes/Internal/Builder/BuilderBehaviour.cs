@@ -319,6 +319,12 @@ namespace EasyBuildSystem.Runtimes.Internal.Builder
             if (CurrentPreview == null)
                 return;
 
+            if (!ScreenTouchManager.instance.CheckOnEditingItemPress())
+                return;
+
+            if (ScreenTouchManager.instance.CheckInputOnStationary())
+                return;
+
             RaycastHit Hit;
 
             float Distance = OutOfRangeDistance == 0 ? ActionDistance : OutOfRangeDistance;
@@ -921,6 +927,9 @@ namespace EasyBuildSystem.Runtimes.Internal.Builder
                 return;
 
             CurrentRotationOffset += rotateAxis;
+
+            // Alan
+            CurrentPreview.transform.rotation = Quaternion.Euler(CurrentPreview.RotationAxis + CurrentRotationOffset);
         }
 
         /// <summary>

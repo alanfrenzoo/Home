@@ -9,7 +9,7 @@ using System.Text.RegularExpressions;
 // Link: http://crappycoding.com/2014/12/create-gameobject-image-using-render-textures/
 
 /// <summary>
-/// Takes snapshot images of prefabs and GameObject instances, and provides methods to save them as PNG files.
+/// Takes snapshot images of prefabs and GameObject Instances, and provides methods to save them as PNG files.
 /// </summary>
 public class SnapshotCamera : MonoBehaviour {
     // This disables the "never assigned" warning.
@@ -38,7 +38,7 @@ public class SnapshotCamera : MonoBehaviour {
     /// </summary>
     public Vector3 defaultScale = new Vector3(1, 1, 1);
 
-    // This private constructor serves to ensure only the factory can produce new instances.
+    // This private constructor serves to ensure only the factory can produce new Instances.
     private SnapshotCamera () { }
 
     /// <summary>
@@ -210,13 +210,13 @@ public class SnapshotCamera : MonoBehaviour {
     }
 
     /// <summary>
-    /// Prepares a prefab for taking a snapshot by creating an instance, setting its layers and applying the specified position offset, rotation, and scale to it.
+    /// Prepares a prefab for taking a snapshot by creating an Instance, setting its layers and applying the specified position offset, rotation, and scale to it.
     /// </summary>
     /// <param name="prefab">The prefab to prepare.</param>
     /// <param name="positionOffset">The position offset relative to the SnapshotCamera to apply to the prefab.</param>
     /// <param name="rotation">The rotation to apply to the prefab.</param>
     /// <param name="scale">The scale to apply to the prefab.</param>
-    /// <returns>A prefab instance ready for taking a snapshot.</returns>
+    /// <returns>A prefab Instance ready for taking a snapshot.</returns>
     private GameObject PreparePrefab (GameObject prefab, Vector3 positionOffset, Quaternion rotation, Vector3 scale)
     {
         GameObject gameObject = GameObject.Instantiate(prefab, transform.position + positionOffset, rotation) as GameObject;
@@ -371,16 +371,16 @@ public class SnapshotCamera : MonoBehaviour {
         if (prefab == null)
             throw new ArgumentNullException("prefab");
         else if (prefab.scene.name != null)
-            throw new ArgumentException("prefab parameter must be a prefab! If you want to use an instance, use TakeObjectSnapshot instead.", "prefab");
+            throw new ArgumentException("prefab parameter must be a prefab! If you want to use an Instance, use TakeObjectSnapshot instead.", "prefab");
 
-        // Prepare an instance of the prefab
-        GameObject instance = PreparePrefab(prefab, positionOffset, rotation, scale);
+        // Prepare an Instance of the prefab
+        GameObject Instance = PreparePrefab(prefab, positionOffset, rotation, scale);
         
         // Take a snapshot
         Texture2D snapshot = TakeSnapshot(backgroundColor, width, height);
 
-        // Destroy the instance we created
-        DestroyImmediate(instance);
+        // Destroy the Instance we created
+        DestroyImmediate(Instance);
 
         // Return the snapshot
         return snapshot;

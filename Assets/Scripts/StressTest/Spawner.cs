@@ -19,6 +19,7 @@ public class Spawner : MonoBehaviour
     public Button Colliderbtn;
     public Button Resetbtn;
 
+    private GameObjectConversionSettings settings;
     private EntityManager entityManager;
     private static int Total;
     private static bool isInstantiatingCollider = true;
@@ -27,7 +28,8 @@ public class Spawner : MonoBehaviour
 
     void Start()
     {
-        entityManager = World.Active.EntityManager;
+        settings = GameObjectConversionSettings.FromWorld(World.DefaultGameObjectInjectionWorld, null);
+        entityManager = World.DefaultGameObjectInjectionWorld.EntityManager;
         colliderList = new List<GameObject>();
         indexEntityPair = new Dictionary<int, Entity>();
 
@@ -104,20 +106,20 @@ public class Spawner : MonoBehaviour
                 else
                 {
                     // Create entity prefab from the game object hierarchy once
-                    prefab = GameObjectConversionUtility.ConvertGameObjectHierarchy(Prefab[ran], World.Active);
+                    prefab = GameObjectConversionUtility.ConvertGameObjectHierarchy(Prefab[ran], settings);
 
                     indexEntityPair[ran] = prefab;
                 }
                 
 
                 // Efficiently instantiate a bunch of entities from the already converted entity prefab
-                var instance = entityManager.Instantiate(prefab);
+                var Instance = entityManager.Instantiate(prefab);
 
                 // Place the instantiated entity in a grid with some noise
                 var position = transform.TransformPoint(new float3(x - CountX / 2, noise.cnoise(new float2(x, y) * 0.21F) * 10, y - CountY / 2));
-                entityManager.SetComponentData(instance, new Translation() { Value = position });
-                entityManager.AddComponentData(instance, new MoveDownTag());
-                entityManager.AddComponentData(instance, new MovingTag());
+                entityManager.SetComponentData(Instance, new Translation() { Value = position });
+                entityManager.AddComponentData(Instance, new MoveDownTag());
+                entityManager.AddComponentData(Instance, new MovingTag());
 
                 if (isInstantiatingCollider)
                 {

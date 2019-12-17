@@ -19,9 +19,11 @@ namespace Samples.Boids
 
     [WriteGroup(typeof(Translation))]
     [WriteGroup(typeof(Rotation))]
+    [WriteGroup(typeof(NonUniformScale))]
     public struct TransformSamples
     {
         public BlobArray<float3> TranslationSamples;
         public BlobArray<quaternion> RotationSamples;
+        public BlobArray<float3> ScaleSamples;
     }
 }

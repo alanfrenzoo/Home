@@ -413,7 +413,8 @@ namespace EasyBuildSystem.Runtimes.Internal.Part
                     if (Behaviour)
                         Behaviour.enabled = false;
 
-                DisableAllColliders();
+                // Alan
+                //DisableAllColliders();
 
                 foreach (Collider Collider in PreviewDisableColliders)
                     if (Collider)
@@ -673,7 +674,7 @@ namespace EasyBuildSystem.Runtimes.Internal.Part
                                         Results[i] = true;
                                     }
                                 }
-                                if (ControlManager.instance.isUsingECS)
+                                if (GameManager.instance.isUsingECS)
                                 {
                                     if (CustomDetections[i].RequiredSupports.ToList().Contains(SurfaceType.Desk))
                                     {

@@ -6,11 +6,12 @@ using UnityEngine.EventSystems;
 
 public class PanZoom : MonoBehaviour
 {
-    public float zoomOutMin = 1;
-    public float zoomOutMax = 8;
+    public float zoomOutMin = 30;
+    public float zoomOutMax = 80;
     public float perspectiveZoomSpeed = .5f;
     public float orthoZoomSpeed = .5f;
     public float groundZ = 0;
+    public float moveSpeed = 0.5f;
 
     private Vector3 touchStart, direction;
 
@@ -26,7 +27,7 @@ public class PanZoom : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (ControlManager.instance.Editing)
+        if (GameManager.instance.TargetEditingItem != null)
             return;
 
         // Over UI
@@ -38,7 +39,7 @@ public class PanZoom : MonoBehaviour
         zoom(Input.GetAxis("Mouse ScrollWheel") * 5f);
 
         if (Input.GetKey(KeyCode.R))
-            rotate(25f);
+            rotate(10f);
 #endif
 
         if (finger == FingerMode.two)
@@ -113,7 +114,19 @@ public class PanZoom : MonoBehaviour
         else
             direction = touchStart - GetWorldPosition(groundZ);
 
-        Camera.main.transform.parent.position += direction;
+        Camera.main.transform.parent.position += moveSpeed * direction;
+
+        var p = Camera.main.transform.parent.position;
+        if (p.x > 80)
+            Camera.main.transform.parent.position = new Vector3(80, p.y, p.z);
+        else if (p.x < -80)
+            Camera.main.transform.parent.position = new Vector3(-80, p.y, p.z);
+
+        p = Camera.main.transform.parent.position;
+        if (p.z > 45)
+            Camera.main.transform.parent.position = new Vector3(p.x, p.y, 45);
+        else if (p.z < -45)
+            Camera.main.transform.parent.position = new Vector3(p.x, p.y, -45);
     }
 
     private Vector3 GetWorldPosition(float z)
