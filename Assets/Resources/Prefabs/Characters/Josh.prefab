@@ -2755,8 +2755,6 @@ GameObject:
   - component: {fileID: 6182528182049624156}
   - component: {fileID: 2532034045552723510}
   - component: {fileID: 1042222651635424289}
-  - component: {fileID: 8604887772603687066}
-  - component: {fileID: 755353752303873606}
   - component: {fileID: 1823195438}
   - component: {fileID: 7226793618242856462}
   m_Layer: 0
@@ -2774,7 +2772,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7176373275797103183}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.1, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 6338787241445826433}
@@ -2837,59 +2835,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7176373275797103183}
   m_Mesh: {fileID: 4300000, guid: a26b9083d52e74b4abf2c21de27dfb39, type: 2}
---- !u!95 &8604887772603687066
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7176373275797103183}
-  m_Enabled: 0
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: c2a635537f814d640b33047a04843bed, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &755353752303873606
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7176373275797103183}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe19e3ecf340a450fb26713b2fa571b2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  animName: Josh
-  animClips:
-  - {fileID: -203655887218126122, guid: a6710dec82406b14cb5c24da2806dd94, type: 3}
-  - {fileID: -203655887218126122, guid: 9ec6e9b40523a274586a3fdd7ab545a0, type: 3}
-  - {fileID: -203655887218126122, guid: 618449eb625c11740a4b25936a29ce7a, type: 3}
-  wrapModes: 010000000100000001000000
-  fpsList: 000000000000000000000000
-  rootMotionEnabled: 000000
-  individualDifferenceEnabled: 010100
-  lodMeshes: []
-  lodDistances: []
-  sphereRadius: 1
-  createNewShader: 0
-  texture: {fileID: 4900000, guid: 79a886847d23f314a87f4636d056720a, type: 3}
-  skinQuality: 2
-  rootBoneTransform: {fileID: 6182528182049624156}
-  anim: {fileID: 11400000, guid: 59f6d7ab49dbf5f479bdd42bfcfc5cb3, type: 2}
-  shaderType: 1
-  savedMesh: {fileID: 4300000, guid: a26b9083d52e74b4abf2c21de27dfb39, type: 2}
-  savedMtrl: {fileID: 2100000, guid: b0051753ea551ee44b4cf3dadb08d215, type: 2}
-  savedShader: {fileID: 4800000, guid: 3a392ad4a7db84a408b6236365f93c58, type: 3}
-  updateOrNew: 1
 --- !u!114 &1823195438
 MonoBehaviour:
   m_ObjectHideFlags: 0

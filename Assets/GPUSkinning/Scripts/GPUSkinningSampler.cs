@@ -242,9 +242,10 @@ public class GPUSkinningSampler : MonoBehaviour
         gpuSkinningClip.wrapMode = wrapModes[samplingClipIndex];
         gpuSkinningClip.frames = new GPUSkinningFrame[numFrames];
         gpuSkinningClip.rootMotionEnabled = rootMotionEnabled[samplingClipIndex];
-        gpuSkinningClip.individualDifferenceEnabled = individualDifferenceEnabled[samplingClipIndex];
+        //gpuSkinningClip.individualDifferenceEnabled = individualDifferenceEnabled[samplingClipIndex];
+        gpuSkinningClip.individualDifferenceEnabled = true;
 
-        if(gpuSkinningAnimation.clips == null)
+        if (gpuSkinningAnimation.clips == null)
         {
             gpuSkinningAnimation.clips = new GPUSkinningClip[] { gpuSkinningClip };
         }
