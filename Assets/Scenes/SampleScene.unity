@@ -9787,10 +9787,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   zoomOutMin: 40
   zoomOutMax: 80
-  perspectiveZoomSpeed: 0.3
-  orthoZoomSpeed: 0.3
+  zoomSpeed: 0.5
   groundZ: 0
   moveSpeed: 0.5
+  touchStart: {x: 0, y: 0, z: 0}
+  direction: {x: 0, y: 0, z: 0}
+  finger: 0
 --- !u!1 &1955761585
 GameObject:
   m_ObjectHideFlags: 0

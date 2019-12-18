@@ -143,7 +143,7 @@ GameObject:
   - component: {fileID: 1023109324371958322}
   - component: {fileID: 3186020216045998698}
   - component: {fileID: 3387788518869015264}
-  m_Layer: 11
+  m_Layer: 13
   m_Name: SM_Prop_Chair_02 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -269,7 +269,7 @@ GameObject:
   - component: {fileID: 1943369220035163371}
   - component: {fileID: 4811258495829444591}
   - component: {fileID: 413689111646534846}
-  m_Layer: 11
+  m_Layer: 13
   m_Name: SM_Prop_Chair_02
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -363,7 +363,7 @@ GameObject:
   - component: {fileID: 6327102403917434203}
   - component: {fileID: 9048201637076499086}
   - component: {fileID: 3924654359884087768}
-  m_Layer: 11
+  m_Layer: 13
   m_Name: DeskandChair(Clone)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -461,7 +461,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1120658469607168, guid: f8ccc1b9e3f317e4a8ac1f4dbe4178cc, type: 3}
       propertyPath: m_Layer
-      value: 11
+      value: 13
       objectReference: {fileID: 0}
     - target: {fileID: 4972010260527850, guid: f8ccc1b9e3f317e4a8ac1f4dbe4178cc, type: 3}
       propertyPath: m_LocalPosition.x

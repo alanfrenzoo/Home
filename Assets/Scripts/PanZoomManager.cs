@@ -4,12 +4,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class PanZoom : MonoBehaviour
+public class PanZoomManager : MonoBehaviour
 {
     public float zoomOutMin = 30;
     public float zoomOutMax = 80;
-    public float perspectiveZoomSpeed = .5f;
-    public float orthoZoomSpeed = .5f;
+    public float zoomSpeed = .5f;
     public float groundZ = 0;
     public float moveSpeed = 0.5f;
 
@@ -27,6 +26,7 @@ public class PanZoom : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
         if (GameManager.instance.TargetEditingItem != null)
             return;
 
@@ -34,27 +34,22 @@ public class PanZoom : MonoBehaviour
         if (EventSystem.current && (EventSystem.current.IsPointerOverGameObject(0) || EventSystem.current.IsPointerOverGameObject(1) || EventSystem.current.IsPointerOverGameObject()))
             return;
 
+
 #if UNITY_EDITOR
 
-        zoom(Input.GetAxis("Mouse ScrollWheel") * 5f);
+        if (Input.GetMouseButtonDown(0))
+            GetCameraWorldPos();
+
+        if (Input.GetMouseButton(0))
+            UpdateCameraMove();
+
+        UpdateCameraZoom(Input.GetAxis("Mouse ScrollWheel") * 5f);
 
         if (Input.GetKey(KeyCode.R))
-            rotate(10f);
+            UpdateCameraRotate(10f);
+
+        return;
 #endif
-
-        if (finger == FingerMode.two)
-        {
-            if (Input.touchCount == 0)
-                finger = FingerMode.none;
-            else if (Input.touchCount == 1)
-                UpdateFirstClick();
-        }
-
-        if (Input.GetMouseButtonDown(0) && finger != FingerMode.two)
-            UpdateFirstClick();
-
-        if (Input.GetMouseButton(0) && finger != FingerMode.two && Input.touchCount < 2)
-            UpdateFirstClickHold();
 
         if (Input.touchCount == 2)
         {
@@ -84,18 +79,30 @@ public class PanZoom : MonoBehaviour
 
             if (Camera.main.orthographic)
             {
-                zoom(difference * orthoZoomSpeed);
+                UpdateCameraZoom(difference * zoomSpeed);
             }
             else
             {
-                zoom(difference * perspectiveZoomSpeed);
-                rotate(angle);
+                UpdateCameraZoom(difference * zoomSpeed);
+                UpdateCameraRotate(angle);
             }
         }
+        if (finger == FingerMode.none || finger == FingerMode.two)
+        {
+            if (Input.touchCount == 1)
+                GetCameraWorldPos();
+        }
+        else if (finger == FingerMode.one)
+        {
+            if (Input.touchCount == 1)
+                UpdateCameraMove();
+        }
+        if (Input.touchCount == 0)
+            finger = FingerMode.none;
 
     }
 
-    private void UpdateFirstClick()
+    private void GetCameraWorldPos()
     {
         finger = FingerMode.one;
 
@@ -105,7 +112,7 @@ public class PanZoom : MonoBehaviour
             touchStart = GetWorldPosition(groundZ);
     }
 
-    private void UpdateFirstClickHold()
+    private void UpdateCameraMove()
     {
         finger = FingerMode.one;
 
@@ -139,7 +146,7 @@ public class PanZoom : MonoBehaviour
         return mousePos.GetPoint(distance);
     }
 
-    private void zoom(float increment)
+    private void UpdateCameraZoom(float increment)
     {
         if (Camera.main.orthographic)
         {
@@ -153,10 +160,11 @@ public class PanZoom : MonoBehaviour
         }
     }
 
-    private void rotate(float angle)
+    private void UpdateCameraRotate(float angle)
     {
         var angleFinal = Camera.main.transform.parent.localEulerAngles.y + angle;
         var rot = Quaternion.Euler(0f, angleFinal, 0f);
         Camera.main.transform.parent.rotation = rot;
     }
+
 }
