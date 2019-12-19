@@ -700,7 +700,7 @@ namespace EasyBuildSystem.Runtimes.Internal.Part
         /// </summary>
         public bool CheckAreas()
         {
-            AreaBehaviour NearestArea = BuildManager.Instance.GetNearestArea(transform.position);
+            AreaBehaviour NearestArea = BuildManager.Instance.GetNearestArea(transform.position, MeshBounds, transform.eulerAngles.y);
 
             if (NearestArea != null)
             {
@@ -711,6 +711,12 @@ namespace EasyBuildSystem.Runtimes.Internal.Part
                     if (NearestArea.AllowPartPlacement.Count != 0 && !NearestArea.CheckAllowedPart(this))
                         return true;
                 }
+            }
+            else
+            {
+                // Area is defined as the only allowance
+                if (GameManager.instance.isUsingArea)
+                    return true;
             }
 
             return false;

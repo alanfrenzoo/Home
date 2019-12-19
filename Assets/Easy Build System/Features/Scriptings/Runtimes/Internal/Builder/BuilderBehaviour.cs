@@ -706,7 +706,7 @@ namespace EasyBuildSystem.Runtimes.Internal.Builder
 
             if (CurrentRemovePreview != null)
             {
-                AreaBehaviour NearestArea = BuildManager.Instance.GetNearestArea(CurrentRemovePreview.transform.position);
+                AreaBehaviour NearestArea = BuildManager.Instance.GetNearestArea(CurrentRemovePreview.transform.position, CurrentPreview.MeshBounds, CurrentPreview.transform.eulerAngles.y);
 
                 if (NearestArea != null)
                     AllowDestruction = NearestArea.AllowDestruction;
@@ -930,6 +930,10 @@ namespace EasyBuildSystem.Runtimes.Internal.Builder
 
             // Alan
             CurrentPreview.transform.rotation = Quaternion.Euler(CurrentPreview.RotationAxis + CurrentRotationOffset);
+
+            UpdatePreviewCollisions();
+            CurrentPreview.gameObject.ChangeAllMaterialsColorInChildren(CurrentPreview.Renderers.ToArray(),
+                AllowPlacement ? BuildManager.Instance.PreviewAllowedColor : BuildManager.Instance.PreviewDeniedColor, SelectedPrefab.PreviewColorLerpTime, SelectedPrefab.PreviewUseColorLerpTime);
         }
 
         /// <summary>

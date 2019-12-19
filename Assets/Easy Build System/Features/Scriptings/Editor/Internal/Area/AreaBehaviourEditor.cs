@@ -124,7 +124,11 @@ namespace EasyBuildSystem.Editor.Internal.Area
 
             if (BaseFoldout)
             {
-                EditorGUILayout.PropertyField(serializedObject.FindProperty("Radius"), new GUIContent("Area Radius :", "This allows to define the radius of area."));
+                //EditorGUILayout.PropertyField(serializedObject.FindProperty("Radius"), new GUIContent("Area Radius :", "This allows to define the radius of area."));
+
+                EditorGUILayout.PropertyField(serializedObject.FindProperty("HalfWidth"), new GUIContent("Area Half Width :", "This allows to define half of the Width of area."));
+                EditorGUILayout.PropertyField(serializedObject.FindProperty("HalfLength"), new GUIContent("Area Half Length :", "This allows to define half of the Length of area."));
+                EditorGUILayout.PropertyField(serializedObject.FindProperty("HalfHeight"), new GUIContent("Area Half Height :", "This allows to define half of the Height of area."));
 
                 EditorGUILayout.PropertyField(serializedObject.FindProperty("AllowPlacement"), new GUIContent("Allow Placement In Area :", "This allows the placement in the area of part(s) from the collection below."));
 

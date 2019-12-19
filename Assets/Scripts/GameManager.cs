@@ -2,6 +2,7 @@
 using EasyBuildSystem.Runtimes;
 using EasyBuildSystem.Runtimes.Events;
 using EasyBuildSystem.Runtimes.Extensions;
+using EasyBuildSystem.Runtimes.Internal.Area;
 using EasyBuildSystem.Runtimes.Internal.Builder;
 using EasyBuildSystem.Runtimes.Internal.Managers;
 using System;
@@ -24,6 +25,9 @@ public class GameManager : MonoBehaviour
     private EntityManager entityManager;
     private Dictionary<int, Entity> indexEntityPair;
     #endregion
+
+    public bool isUsingArea = true;
+    public GameObject AreaManager;
 
     public enum GameModeCode
     {
@@ -370,12 +374,13 @@ public class GameManager : MonoBehaviour
                 // Todo: Pop up warning
 
                 CancelPlacement();
+                AreaManager.transform.GetChild(0).gameObject.SetActive(false);
 
             }
             else if (currentGameMode == GameModeCode.DecorateFurniture)
             {
                 //Show Grid
-
+                AreaManager.transform.GetChild(0).gameObject.SetActive(true);
             }
             //else if (currentGameMode == GameModeCode.DecorateFloor)
             //{

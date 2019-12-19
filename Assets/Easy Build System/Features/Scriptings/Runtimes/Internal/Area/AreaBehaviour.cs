@@ -10,7 +10,13 @@ namespace EasyBuildSystem.Runtimes.Internal.Area
     {
         #region Public Fields
 
-        public float Radius = 5f;
+        // Alan: Deprecated
+        //public float Radius = 5f;
+
+        public float HalfWidth = 5f;
+        public float HalfLength = 5f;
+
+        public float HalfHeight = 5f;
 
         public bool AllowPlacement;
 
@@ -32,12 +38,12 @@ namespace EasyBuildSystem.Runtimes.Internal.Area
             BuildManager.Instance.RemoveArea(this);
         }
 
-        private void OnDrawGizmosSelected()
-        {
-            Gizmos.color = AllowPlacement ? Color.green : Color.red;
+        //private void OnDrawGizmosSelected()
+        //{
+        //    Gizmos.color = AllowPlacement ? Color.green : Color.red;
 
-            Gizmos.DrawWireSphere(transform.position, Radius);
-        }
+        //    Gizmos.DrawWireSphere(transform.position, Radius);
+        //}
 
         #endregion Private Methods
 

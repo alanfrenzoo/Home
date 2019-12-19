@@ -201,14 +201,29 @@ namespace EasyBuildSystem.Runtimes.Internal.Managers
         /// <summary>
         /// This method allows to get the nearest area.
         /// </summary>
-        public AreaBehaviour GetNearestArea(Vector3 position)
+        public AreaBehaviour GetNearestArea(Vector3 position, Bounds meshbound, float rotY)
         {
+            rotY = Mathf.Round(rotY / 90) * 90;
+
+            // rotation.y = 0, meshbound.extents.x = width
+            float boundx = ((int)(rotY / 90)) % 2 > 0 ? meshbound.extents.z : meshbound.extents.x;
+            float boundz = ((int)(rotY / 90)) % 2 > 0 ? meshbound.extents.x : meshbound.extents.z;
+
             foreach (AreaBehaviour Area in Areas)
             {
                 if (Area != null)
+                {
                     if (Area.gameObject.activeSelf == true)
-                        if (Vector3.Distance(position, Area.transform.position) <= Area.Radius)
+                    {
+                        //Debug.Log("x " + Mathf.Abs(Area.transform.position.x - (position.x > Area.transform.position.x ? position.x + boundx : position.x - boundx)));
+                        //Debug.Log("z " + Mathf.Abs(Area.transform.position.z - (position.z > Area.transform.position.z ? position.z + boundz : position.z - boundz)));
+                        if (Mathf.Abs(Area.transform.position.x - (position.x > Area.transform.position.x ? position.x + boundx : position.x - boundx)) <= Area.HalfWidth &&
+                            Mathf.Abs(Area.transform.position.z - (position.z > Area.transform.position.z ? position.z + boundz : position.z - boundz)) <= Area.HalfLength)
+                        {
                             return Area;
+                        }
+                    }
+                }
             }
 
             return null;
