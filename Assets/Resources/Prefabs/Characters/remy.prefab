@@ -2929,6 +2929,7 @@ GameObject:
   - component: {fileID: 626427791852004350}
   - component: {fileID: 2485640779487004907}
   - component: {fileID: 4332592891728311415}
+  - component: {fileID: 3168452348570417143}
   m_Layer: 0
   m_Name: remy
   m_TagString: Untagged
@@ -3048,6 +3049,46 @@ NavMeshAgent:
   m_BaseOffset: -0.1
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &3168452348570417143
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9097560196324391503}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d7b55c7ecdb49a4a89fa5e6f9022861, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startWhenEnabled: 1
+  asynchronousLoad: 0
+  pauseWhenDisabled: 0
+  restartWhenComplete: 1
+  logTaskChanges: 0
+  group: 0
+  resetValuesOnRestart: 0
+  externalBehavior: {fileID: 0}
+  mBehaviorSource:
+    behaviorName: Remy
+    behaviorDescription: 
+    mTaskData:
+      types: []
+      parentIndex: 
+      startIndex: 
+      variableStartIndex: 
+      JSONSerialization: 
+      fieldSerializationData:
+        typeName: []
+        fieldNameHash: 
+        startIndex: 
+        dataPosition: 
+        unityObjects: []
+        byteData: 
+        byteDataArray: 
+      Version: 
+  gizmoViewMode: 2
+  showBehaviorDesignerGizmo: 1
 --- !u!1 &9113227411456839210
 GameObject:
   m_ObjectHideFlags: 0
