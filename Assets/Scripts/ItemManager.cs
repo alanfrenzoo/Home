@@ -156,7 +156,7 @@ public class ItemManager : MonoBehaviour
 
     public void PlaceItem(bool isFirstLoad = false, string encodedPos = "", string encodedRot = "")
     {
- 
+
         if (!BuilderBehaviour.Instance.AllowPlacement && !isFirstLoad)
             return;
 
@@ -430,11 +430,19 @@ public class ItemManager : MonoBehaviour
         set => itemDataList = value;
     }
 
-    private void OnDisable()
+    private void OnApplicationPause(bool isPaused)
     {
         // Save
-        GameDataManager.Instance.SaveData();
+        if (isPaused)
+            GameDataManager.Instance.SaveData();
 
+    }
+
+    private void OnDisable()
+    {
+#if UNITY_EDITOR
+        GameDataManager.Instance.SaveData();
+#endif
     }
 
     public string EndcodeItemDataToString()
