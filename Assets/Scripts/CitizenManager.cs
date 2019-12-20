@@ -8,6 +8,8 @@ using UnityEngine.AI;
 
 public class CitizenManager : MonoBehaviour
 {
+    public static CitizenManager instance;
+
     public GameObject PasserbyPoints;
 
     [Header("Controls")]
@@ -28,6 +30,8 @@ public class CitizenManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        instance = this;
+
         points = PasserbyPoints.GetComponentsInChildren<Transform>().ToList();
         points.RemoveAt(0);
         if (points.Count > 0)
@@ -41,7 +45,18 @@ public class CitizenManager : MonoBehaviour
             }
             System.Random random = new System.Random();
             CreateWanderingPeople(random);
-            //StartCoroutine(WaitAndAssignDestinations(random));
+        }
+        bool haveDesk = false;
+        bool producing = false;
+        if (haveDesk)
+        {
+            if (producing)
+            {
+            }
+            else
+            {
+            };
+
         }
     }
 
@@ -77,47 +92,4 @@ public class CitizenManager : MonoBehaviour
             }
         }
     }
-
-    /*IEnumerator WaitAndAssignDestinations(System.Random random)
-    {
-        //yield return new WaitForSeconds(1f); //Count is the amount of time in seconds that you want to wait.
-
-        for (int i = 0; i < WanderingPeopleArr.Length; i++)
-        {
-            GPUSkinningPlayerMono mono = WanderingPeopleArr[i].GetComponent<GPUSkinningPlayerMono>();
-            if (mono != null)
-            {
-                int EndPosition = 0;
-                do
-                {
-                    EndPosition = random.Next(0, points.Count);
-                } while (points[EndPosition].position == WanderingPeopleArr[i].transform.position);
-
-                StartCoroutine(AssignDestinations(random, mono, EndPosition));               
-            }
-        }
-
-        yield return null;
-    }
-    IEnumerator AssignDestinations(System.Random random, GPUSkinningPlayerMono mono, int endPosition)
-    {
-        yield return new WaitForSeconds(1f); //Count is the amount of time in seconds that you want to wait.
-
-        GPUSkinningPlayer player = mono.Player;
-
-        if (player != null)
-        {
-            player.Play("Idle");
-            yield return new WaitForSeconds(random.Next(0, 3));
-            player.Play("Walk");
-            NavMeshAgent nma = mono.gameObject.GetComponent<NavMeshAgent>();
-            if (nma != null)
-            {
-                nma.speed = random.Next(35, 65) / 100f;
-                nma.SetDestination(points[endPosition].position);
-            }
-        }
-
-        yield return null;
-    }*/
 }
