@@ -147,6 +147,9 @@ public class ItemManager : MonoBehaviour
         entityManager.AddComponentData(entities, new Translation { Value = TargetCollider.transform.position });
         entityManager.AddComponentData(entities, new DestroyTag { Value = int.Parse(TargetCollider.name) });
 
+        // Remove Temp Data
+        AddOrRemoveEndcodeData(TargetCollider.transform, false);
+
         // with destroy
         ControlManager.instance.EnableBuildContent(true);
         ControlManager.instance.leftBarController.EnterDecorateMode();
@@ -295,6 +298,9 @@ public class ItemManager : MonoBehaviour
             entityManager.AddComponentData(instance, new FurniTag { Value = TargetItemIndex });
 
             TargetCollider.SetActive(true);
+
+            // Save Temp Data
+            AddOrRemoveEndcodeData(TargetCollider.transform);
         }
 
         ClearReferencingAndResetMode();
@@ -306,8 +312,6 @@ public class ItemManager : MonoBehaviour
         if (TargetCollider != null)
         {
             Destroy(TargetCollider);
-            // Remove Temp Data
-            AddOrRemoveEndcodeData(TargetCollider.transform, false);
             // Update Nav Mesh
             EventHandlers.PlacedPart(null, null);
         }
