@@ -28,13 +28,13 @@ public class DestroySystem : ComponentSystem
                             BuilderBehaviour.Instance.ChangeMode(BuildMode.Placement);
 
                             BuilderBehaviour.Instance.CreatePreview(BuilderBehaviour.Instance.SelectedPrefab.gameObject);
-                            BuilderBehaviour.Instance.CurrentPreview.transform.position = GameManager.instance.TargetCollider.transform.position;
-                            var y = GameManager.instance.TargetCollider.transform.rotation.eulerAngles.y - BuilderBehaviour.Instance.CurrentPreview.RotationAxis.y;
+                            BuilderBehaviour.Instance.CurrentPreview.transform.position = ItemManager.instance.TargetCollider.transform.position;
+                            var y = ItemManager.instance.TargetCollider.transform.rotation.eulerAngles.y - BuilderBehaviour.Instance.CurrentPreview.RotationAxis.y;
                             var rotateAxis = new Vector3(0f, y, 0f);
                             BuilderBehaviour.Instance.RotatePreview(rotateAxis);
 
-                            GameManager.instance.TargetEditingItem = BuilderBehaviour.Instance.CurrentPreview.gameObject;
-                            GameManager.instance.TargetItemIndex = index.Value;
+                            ItemManager.instance.TargetEditingItem = BuilderBehaviour.Instance.CurrentPreview.gameObject;
+                            ItemManager.instance.TargetItemIndex = index.Value;
                             EntityManager.DestroyEntity(furni_id); //destroy-wise with all its children
                             EntityManager.DestroyEntity(destroy_id);
 

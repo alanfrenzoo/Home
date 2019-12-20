@@ -674,7 +674,7 @@ namespace EasyBuildSystem.Runtimes.Internal.Part
                                         Results[i] = true;
                                     }
                                 }
-                                if (GameManager.instance.isUsingECS)
+                                if (ItemManager.instance.isUsingECS)
                                 {
                                     if (CustomDetections[i].RequiredSupports.ToList().Contains(SurfaceType.Desk))
                                     {
@@ -715,7 +715,7 @@ namespace EasyBuildSystem.Runtimes.Internal.Part
             else
             {
                 // Area is defined as the only allowance
-                if (GameManager.instance.isUsingArea)
+                if (ItemManager.instance.isUsingArea)
                     return true;
             }
 

@@ -27,24 +27,28 @@ public class ControlManager : MonoBehaviour
 
     private float scaleFactor;
 
-    public void Start()
+    private void Awake()
     {
         instance = this;
+    }
+
+    public void Start()
+    {
         scaleFactor = MainCanvas.scaleFactor;
 
         ValidateButton.onClick.AddListener(() =>
         {
             //if (BuilderBehaviour.Instance.CurrentMode == BuildMode.Placement)
             {
-                if (GameManager.instance.isUsingECS)
+                if (ItemManager.instance.isUsingECS)
                 {
-                    GameManager.instance.PlaceItem();
+                    ItemManager.instance.PlaceItem();
                 }
                 else
                 {
                     BuilderBehaviour.Instance.PlacePrefab();
 
-                    GameManager.instance.IsEditing = false;
+                    ItemManager.instance.IsEditing = false;
 
                     BuildContent.SetActive(false);
                     BuilderBehaviour.Instance.ChangeMode(BuildMode.None);
@@ -56,9 +60,9 @@ public class ControlManager : MonoBehaviour
 
         CancelButton.onClick.AddListener(() =>
         {
-            if (GameManager.instance.isUsingECS)
+            if (ItemManager.instance.isUsingECS)
             {
-                GameManager.instance.CancelPlacement();
+                ItemManager.instance.CancelPlacement();
             }
             else
             {
@@ -74,9 +78,9 @@ public class ControlManager : MonoBehaviour
                 }
 
                 // Clear referencing
-                GameManager.instance.TargetCollider = null;
+                ItemManager.instance.TargetCollider = null;
 
-                GameManager.instance.IsEditing = false;
+                ItemManager.instance.IsEditing = false;
 
                 BuildContent.SetActive(false);
                 BuilderBehaviour.Instance.ChangeMode(BuildMode.None);
@@ -87,14 +91,14 @@ public class ControlManager : MonoBehaviour
 
         RotateButton.onClick.AddListener(() =>
         {
-            GameManager.instance.RotateItem();
+            ItemManager.instance.RotateItem();
         });
 
         DestructionButton.onClick.AddListener(() =>
         {
-            if (GameManager.instance.isUsingECS)
+            if (ItemManager.instance.isUsingECS)
             {
-                GameManager.instance.RemoveItem();
+                ItemManager.instance.RemoveItem();
             }
             else
             {
@@ -104,7 +108,7 @@ public class ControlManager : MonoBehaviour
                 if (BuilderBehaviour.Instance.CurrentPreview != null)
                     Destroy(BuilderBehaviour.Instance.CurrentPreview.gameObject);
 
-                GameManager.instance.IsEditing = false;
+                ItemManager.instance.IsEditing = false;
 
                 BuilderBehaviour.Instance.ChangeMode(BuildMode.None);
                 BuilderBehaviour.Instance.ChangeMode(BuildMode.Edition);
@@ -130,7 +134,7 @@ public class ControlManager : MonoBehaviour
             {
                 if (Input.GetMouseButton(0))
                 {
-                    GameManager.instance.InstantiateItem(TargetUIItemIndex);
+                    ItemManager.instance.InstantiateItem(TargetUIItemIndex);
                     leftBarController.GetComponentInChildren<ScrollRect>().enabled = false;
                 }
                 TargetUIItemIndex = -1;
@@ -153,7 +157,7 @@ public class ControlManager : MonoBehaviour
 
     public void PositionUILoadingBar()
     {
-        MoveUINextTo(LoadingLayer.parent.gameObject, GameManager.instance.NewCollider.transform);
+        MoveUINextTo(LoadingLayer.parent.gameObject, ItemManager.instance.NewCollider.transform);
     }
 
     public void EnableLoadingBar()

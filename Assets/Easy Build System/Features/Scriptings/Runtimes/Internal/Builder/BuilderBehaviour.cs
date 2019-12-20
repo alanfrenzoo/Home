@@ -183,12 +183,8 @@ namespace EasyBuildSystem.Runtimes.Internal.Builder
                     SocketLayers = LayerMask.GetMask(Constants.LAYER_SOCKET);
             }
         }
-
-        public virtual void Start()
+        public virtual void Awake()
         {
-            if (!Application.isPlaying)
-                return;
-
             Instance = this;
 
             if (PreviewCamera != null)
@@ -198,6 +194,22 @@ namespace EasyBuildSystem.Runtimes.Internal.Builder
 
             if (BuilderCamera == null)
                 Debug.Log("<b><color=cyan>[Easy Build System]</color></b> : No camera for the Builder Behaviour component.");
+        }
+
+        public virtual void Start()
+        {
+            if (!Application.isPlaying)
+                return;
+
+            //Instance = this;
+
+            //if (PreviewCamera != null)
+            //    PreviewCamera.enabled = UsePreviewCamera;
+
+            //BuilderCamera = GetComponent<Camera>();
+
+            //if (BuilderCamera == null)
+            //    Debug.Log("<b><color=cyan>[Easy Build System]</color></b> : No camera for the Builder Behaviour component.");
         }
 
         public virtual void Update()

@@ -29,7 +29,7 @@ public class TouchScreenInputManager : InputManager
     // Update is called once per frame
     void Update()
     {
-        if (GameManager.instance.IsEditing)
+        if (ItemManager.instance.IsEditing)
             return;
 
         // Over UI

@@ -8,7 +8,7 @@ public class PanZoomManager : MonoBehaviour
 {
     public float zoomOutMin = 30;
     public float zoomOutMax = 80;
-    public float zoomSpeed = .5f;
+    public float zoomSpeed = 0.2f;
     public float groundZ = 0;
     public float moveSpeed = 0.5f;
 
@@ -27,7 +27,7 @@ public class PanZoomManager : MonoBehaviour
     void Update()
     {
 
-        if (GameManager.instance.TargetEditingItem != null)
+        if (ItemManager.instance.TargetEditingItem != null)
             return;
 
         // Over UI

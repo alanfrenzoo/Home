@@ -25,9 +25,12 @@ public class ScreenTouchManager : MonoBehaviour
     private float startTimer;
     private float pressDuration;
 
-    private void Start()
+    private void Awake()
     {
         instance = this;
+    }
+    private void Start()
+    {
         finger = FingerMode.none;
         startTimer = float.PositiveInfinity;
         pressDuration = 0f;
@@ -149,8 +152,8 @@ public class ScreenTouchManager : MonoBehaviour
 
     private void CancelInteract()
     {
-        GameManager.instance.NewCollider = null;
-        GameManager.instance.TargetEditingItem = null;
+        ItemManager.instance.NewCollider = null;
+        ItemManager.instance.TargetEditingItem = null;
     }
 
     public float GetLongPressTimePortion()
@@ -170,7 +173,7 @@ public class ScreenTouchManager : MonoBehaviour
 
     public bool CheckOnItemPress()
     {
-        if ((CheckOnFurnitureTouch() || GameManager.instance.NewCollider) && pressDuration >= 0f)
+        if ((CheckOnFurnitureTouch() || ItemManager.instance.NewCollider) && pressDuration >= 0f)
             return true;
         else
             return false;
@@ -178,7 +181,7 @@ public class ScreenTouchManager : MonoBehaviour
 
     public bool CheckOnEditingItemPress()
     {
-        if (CheckOnEditingItemTouch() || GameManager.instance.TargetEditingItem)
+        if (CheckOnEditingItemTouch() || ItemManager.instance.TargetEditingItem)
             return true;
         else
             return false;
@@ -195,7 +198,7 @@ public class ScreenTouchManager : MonoBehaviour
             if (Hit.collider != null)
             {
                 if (Input.GetMouseButtonDown(0))
-                    GameManager.instance.NewCollider = Hit.collider.gameObject;
+                    ItemManager.instance.NewCollider = Hit.collider.gameObject;
                 return true;
             }
 
@@ -214,7 +217,7 @@ public class ScreenTouchManager : MonoBehaviour
             if (Hit.collider != null)
             {
                 if (Input.GetMouseButtonDown(0))
-                    GameManager.instance.TargetEditingItem = Hit.transform.parent.gameObject;
+                    ItemManager.instance.TargetEditingItem = Hit.transform.parent.gameObject;
                 return true;
             }
 

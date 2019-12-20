@@ -3,20 +3,23 @@ using EasyBuildSystem.Runtimes;
 using EasyBuildSystem.Runtimes.Events;
 using EasyBuildSystem.Runtimes.Extensions;
 using EasyBuildSystem.Runtimes.Internal.Area;
+using EasyBuildSystem.Runtimes.Internal.Blueprint.Data;
 using EasyBuildSystem.Runtimes.Internal.Builder;
 using EasyBuildSystem.Runtimes.Internal.Managers;
+using EasyBuildSystem.Runtimes.Internal.Storage.Data;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Entities;
 using Unity.Rendering;
 using Unity.Transforms;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class GameManager : MonoBehaviour
+public class ItemManager : MonoBehaviour
 {
-    public static GameManager instance;
+    public static ItemManager instance;
 
     #region ECS
     public bool isUsingECS = true;
@@ -28,6 +31,7 @@ public class GameManager : MonoBehaviour
 
     public bool isUsingArea = true;
     public GameObject AreaManager;
+    public Transform PlacementContainer;
 
     public enum GameModeCode
     {
@@ -36,13 +40,19 @@ public class GameManager : MonoBehaviour
         DecorateFloor
     }
 
-    public void Start()
+    private void Awake()
     {
         instance = this;
+    }
 
+    public void Start()
+    {
         settings = GameObjectConversionSettings.FromWorld(World.DefaultGameObjectInjectionWorld, null);
         entityManager = World.DefaultGameObjectInjectionWorld.EntityManager;
         indexEntityPair = new Dictionary<int, Entity>();
+
+        GameDataManager.Instance.LoadData();
+
     }
 
     private void Update()
@@ -144,12 +154,13 @@ public class GameManager : MonoBehaviour
         isEditing = true;
     }
 
-    public void PlaceItem()
+    public void PlaceItem(bool isFirstLoad = false, string encodedPos = "", string encodedRot = "")
     {
-        if (!BuilderBehaviour.Instance.AllowPlacement)
+ 
+        if (!BuilderBehaviour.Instance.AllowPlacement && !isFirstLoad)
             return;
 
-        if (BuilderBehaviour.Instance.CurrentPreview == null)
+        if (BuilderBehaviour.Instance.CurrentPreview == null && !isFirstLoad)
             return;
 
         if (TargetCollider != null)
@@ -174,8 +185,8 @@ public class GameManager : MonoBehaviour
         // Efficiently instantiate a bunch of entities from the already converted entity prefab
         var instance = entityManager.Instantiate(prefab);
 
-        var position = BuilderBehaviour.Instance.CurrentPreview.transform.position + workingObject.transform.localPosition;
-        var rotation = Quaternion.Euler(BuilderBehaviour.Instance.CurrentPreview.transform.eulerAngles);
+        var position = isFirstLoad ? PartModel.ToVector3(encodedPos) : BuilderBehaviour.Instance.CurrentPreview.transform.position + workingObject.transform.localPosition;
+        var rotation = isFirstLoad ? Quaternion.Euler(PartModel.ToVector3(encodedRot)) : Quaternion.Euler(BuilderBehaviour.Instance.CurrentPreview.transform.eulerAngles);
 
         entityManager.SetComponentData(instance, new Translation { Value = position });
         entityManager.SetComponentData(instance, new Rotation { Value = rotation });
@@ -186,7 +197,11 @@ public class GameManager : MonoBehaviour
         colliderToSpawn.GetComponent<MeshCollider>().sharedMesh = workingObject.GetComponentInChildren<MeshCollider>().sharedMesh;
         colliderToSpawn.transform.position = position;
         colliderToSpawn.transform.rotation = rotation;
+        colliderToSpawn.transform.SetParent(PlacementContainer);
         colliderToSpawn.layer = LayerMask.NameToLayer("Furniture");
+
+        // Save Temp Data
+        AddOrRemoveEndcodeData(colliderToSpawn.transform);
 
         if (BuilderBehaviour.Instance.CurrentPreview.Type == EasyBuildSystem.Runtimes.Internal.Part.PartType.Desk)
         {
@@ -272,8 +287,8 @@ public class GameManager : MonoBehaviour
             // Efficiently instantiate a bunch of entities from the already converted entity prefab
             var instance = entityManager.Instantiate(prefab);
 
-            var position = GameManager.instance.TargetCollider.transform.position + workingObject.transform.localPosition;
-            var rotation = Quaternion.Euler(GameManager.instance.TargetCollider.transform.eulerAngles);
+            var position = ItemManager.instance.TargetCollider.transform.position + workingObject.transform.localPosition;
+            var rotation = Quaternion.Euler(ItemManager.instance.TargetCollider.transform.eulerAngles);
 
             entityManager.SetComponentData(instance, new Translation { Value = position });
             entityManager.SetComponentData(instance, new Rotation { Value = rotation });
@@ -291,6 +306,9 @@ public class GameManager : MonoBehaviour
         if (TargetCollider != null)
         {
             Destroy(TargetCollider);
+            // Remove Temp Data
+            AddOrRemoveEndcodeData(TargetCollider.transform, false);
+            // Update Nav Mesh
             EventHandlers.PlacedPart(null, null);
         }
 
@@ -323,6 +341,22 @@ public class GameManager : MonoBehaviour
     private void UpdateCameraMovement()
     {
         //Handle in PanZoomManager
+    }
+
+    public void AddOrRemoveEndcodeData(Transform collider, bool Add = true)
+    {
+        List<string> temp = ItemDataList;
+
+        string Result = string.Format("{0}:{1}:{2}", collider.name,
+             (collider.localPosition).ToString("F4"),
+             (collider.localRotation.eulerAngles).ToString("F4"));
+
+        if (Add)
+            temp.Add(Result);
+        else if (temp.Contains(Result))
+            temp.Remove(Result);
+
+        ItemDataList = temp;
     }
 
     private bool isEditing = false;
@@ -389,4 +423,45 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    private List<string> itemDataList;
+    public List<string> ItemDataList
+    {
+        get => itemDataList == null ? new List<string>() : itemDataList;
+        set => itemDataList = value;
+    }
+
+    private void OnDisable()
+    {
+        // Save
+        GameDataManager.Instance.SaveData();
+
+    }
+
+    public string EndcodeItemDataToString()
+    {
+        string Result = string.Empty;
+
+        for (int i = 0; i < ItemDataList.Count; i++)
+            Result += string.Format("{0}|", ItemDataList[i]);
+
+        return Result;
+    }
+
+    public void DecodeItemData(string data)
+    {
+        string[] Data = data.Split('|');
+
+        for (int i = 0; i < Data.Length - 1; i++)
+        {
+            string[] Args = Data[i].Split(':');
+
+            var Id = int.Parse(Args[0]);
+            var Position = Args[1];
+            var Rotation = Args[2];
+
+            InstantiateItem(Id);
+            PlaceItem(true, Position, Rotation);
+
+        }
+    }
 }

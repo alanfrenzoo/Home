@@ -37,6 +37,6 @@ public class DeformManager : MonoBehaviour
 
         yield return new WaitForSeconds(animator.runtimeAnimatorController.animationClips[0].averageDuration);
 
-        GameManager.instance.PlaceItem();
+        ItemManager.instance.PlaceItem();
     }
 }

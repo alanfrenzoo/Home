@@ -32,14 +32,14 @@ public class LeftBarController : MonoBehaviour
     {
         DecorateMark.SetActive(true);
         animator.Play("showLeftBar");
-        GameManager.instance.CurrentGameMode = GameManager.GameModeCode.DecorateFurniture;
+        ItemManager.instance.CurrentGameMode = ItemManager.GameModeCode.DecorateFurniture;
     }
 
     public void EnterViewMode()
     {
         DecorateMark.SetActive(false);
         animator.Play("hideLeftBar");
-        GameManager.instance.CurrentGameMode = GameManager.GameModeCode.View;
+        ItemManager.instance.CurrentGameMode = ItemManager.GameModeCode.View;
     }
 
 }
