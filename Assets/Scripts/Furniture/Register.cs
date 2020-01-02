@@ -2,14 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Desk : Furniture
+public class Register : Furniture
 {
-    public int DeskId;
+    public int RegisterId;
     public Vector3[] Spots;
-    public Chair[] Chairs;
     public bool Available;
 
-    public Desk(Vector3 position, Vector3[] spots)
+    public Register(Vector3 position, Vector3[] spots)
     {
         Position = position;
         Available = true;

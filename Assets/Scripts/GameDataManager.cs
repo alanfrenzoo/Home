@@ -1,11 +1,12 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
 
 public class GameDataManager : MonoBehaviour
 {
     public string savePath = "/gamesave.save";
-
+    
     #region Singleton
     public static GameDataManager Instance
     {
@@ -24,6 +25,39 @@ public class GameDataManager : MonoBehaviour
     private static GameDataManager instance;
     #endregion
 
+    private Dictionary<Vector3, Desk> deskDict;
+    public Dictionary<Vector3,Desk> DeskDict
+    {
+        get
+        {
+            if (deskDict == null)
+                deskDict = new Dictionary<Vector3, Desk>();
+
+            return deskDict;
+        }
+        set
+        {
+            deskDict = value;
+        }
+    }
+
+    private Dictionary<Vector3, Register> registerDict;
+    public Dictionary<Vector3, Register> RegisterDict
+    {
+        get
+        {
+            if (registerDict == null)
+                registerDict = new Dictionary<Vector3, Register>();
+
+            return registerDict;
+        }
+        set
+        {
+            registerDict = value;
+        }
+    }
+
+    #region Save Load
     public void SaveData()
     {
         var save = new Save()
@@ -62,5 +96,5 @@ public class GameDataManager : MonoBehaviour
             Debug.LogError("Save file doesn't exist.");
         }
     }
-
+    #endregion
 }

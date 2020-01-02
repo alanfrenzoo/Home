@@ -47,7 +47,7 @@ MonoBehaviour:
   AdvancedFeatures: 1
   Id: 8
   Name: Suitcase Part
-  Type: 0
+  Type: 2
   OccupancyParts: []
   FreePlacement: 0
   AvoidClipping: 1

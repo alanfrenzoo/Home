@@ -38,7 +38,7 @@ public class CitizenManager : MonoBehaviour
         {
             WanderingPeopleArr = new GameObject[PeopleWandering];
             WanderingAI = new ExternalBehavior[PeopleWandering];
-            for (int i=0; i<WanderingAI.Length; i++)
+            for (int i = 0; i < WanderingAI.Length; i++)
             {
                 WanderingAI[i] = UnityEngine.Object.Instantiate(WanderAI);
                 WanderingAI[i].Init();
@@ -46,10 +46,13 @@ public class CitizenManager : MonoBehaviour
             System.Random random = new System.Random();
             CreateWanderingPeople(random);
         }
-        bool haveDesk = false;
+        bool haveDesk = GameDataManager.Instance.DeskDict.Count > 0;
         bool producing = false;
         if (haveDesk)
         {
+            UnityEngine.Debug.Log("haveDesk");
+            int deskCount = GameDataManager.Instance.DeskDict.Count;
+
             if (producing)
             {
             }
@@ -57,6 +60,10 @@ public class CitizenManager : MonoBehaviour
             {
             };
 
+        }
+        else
+        {
+            UnityEngine.Debug.Log("noDesk");
         }
     }
 
@@ -83,12 +90,12 @@ public class CitizenManager : MonoBehaviour
             }
 
             BehaviorTree bt = WanderingPeopleArr[i].GetComponent<BehaviorTree>();
-            if (bt !=null)
+            if (bt != null)
             {
                 bt.ExternalBehavior = WanderingAI[i];
                 bt.SetVariable("Self", (SharedGameObject)bt.gameObject);
                 bt.SetVariable("PossibleTargets", (SharedGameObject)PasserbyPoints);
-                bt.SetVariable("Speed", (SharedFloat)(random.Next(10, 31)/10f));
+                bt.SetVariable("Speed", (SharedFloat)(random.Next(10, 31) / 10f));
             }
         }
     }
