@@ -10,11 +10,16 @@ public class PanZoomManager : MonoBehaviour
     public float zoomOutMax = 80;
     public float orthoZoomMin = 1f;
     public float orthoZoomMax = 10f;
-    public float zoomSpeed = 0.02f;
+    public float zoomSpeed = 0.005f;
     public float groundZ = 0;
     public float moveSpeed = 0.5f;
 
     private Vector3 touchStart = Vector3.up, direction;
+
+    private Vector2 touch1Pos;
+    private Vector2 touch2Pos;
+    private Vector3 touchStart1 = Vector3.up;
+    private Vector3 touchStart2 = Vector3.up;
 
     private enum FingerMode
     {
@@ -91,6 +96,36 @@ public class PanZoomManager : MonoBehaviour
                 UpdateCameraZoom(difference * 0.2f);// zoomSpeed);
                 UpdateCameraRotate(angle);
             }
+
+            if (touchStart1 == Vector3.zero && touchStart2 == Vector3.zero)
+            {
+                touch1Pos = touchZero.position;
+                touch2Pos = touchOne.position;
+
+                touchStart1 = GetWorldPosition(groundZ, true);
+                touchStart2 = GetWorldPosition(groundZ, false, true);
+            }
+            if (touchStart1 != Vector3.zero && touchStart2 != Vector3.zero)
+            {
+                var direction1 = touchStart1 - GetWorldPosition(groundZ, true);
+                var direction2 = touchStart2 - GetWorldPosition(groundZ, false, true);
+
+                Camera.main.transform.parent.position += moveSpeed * (direction1 + direction2) / 2;
+
+                var p = Camera.main.transform.parent.position;
+                if (p.x > 80)
+                    Camera.main.transform.parent.position = new Vector3(80, p.y, p.z);
+                else if (p.x < -80)
+                    Camera.main.transform.parent.position = new Vector3(-80, p.y, p.z);
+
+                p = Camera.main.transform.parent.position;
+                if (p.z > 45)
+                    Camera.main.transform.parent.position = new Vector3(p.x, p.y, 45);
+                else if (p.z < -45)
+                    Camera.main.transform.parent.position = new Vector3(p.x, p.y, -45);
+            }
+
+
         }
         if (finger == FingerMode.none || finger == FingerMode.two)
         {
@@ -114,8 +149,10 @@ public class PanZoomManager : MonoBehaviour
         //if (Camera.main.orthographic)
         //    touchStart = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         //else
-            touchStart = GetWorldPosition(groundZ);
+        touchStart = GetWorldPosition(groundZ);
 
+        touchStart1 = Vector3.zero;
+        touchStart2 = Vector3.zero;
     }
 
     private void UpdateCameraMove()
@@ -146,9 +183,16 @@ public class PanZoomManager : MonoBehaviour
             Camera.main.transform.parent.position = new Vector3(p.x, p.y, -45);
     }
 
-    private Vector3 GetWorldPosition(float z)
+    private Vector3 GetWorldPosition(float z, bool touch1 = false, bool touch2 = false)
     {
-        Ray mousePos = Camera.main.ScreenPointToRay(Input.mousePosition);
+        var pos = Input.mousePosition;
+        if (touch1)
+            pos = new Vector3(Input.GetTouch(0).position.x, Input.GetTouch(0).position.y);
+        if (touch2)
+            pos = new Vector3(Input.GetTouch(1).position.x, Input.GetTouch(1).position.y);
+
+        Ray mousePos = Camera.main.ScreenPointToRay(pos);
+        //Ray mousePos = Camera.main.ScreenPointToRay(Input.mousePosition);
         Plane ground = new Plane(Vector3.up, new Vector3(0, 0, z));
         float distance;
         ground.Raycast(mousePos, out distance);

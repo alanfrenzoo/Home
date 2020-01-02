@@ -815,7 +815,7 @@ MonoBehaviour:
   zoomOutMax: 90
   orthoZoomMin: 1
   orthoZoomMax: 10
-  zoomSpeed: 0.02
+  zoomSpeed: 0.005
   groundZ: 0
   moveSpeed: 0.5
 --- !u!124 &102201392
