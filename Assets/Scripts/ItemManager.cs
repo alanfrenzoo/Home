@@ -225,7 +225,7 @@ public class ItemManager : MonoBehaviour
         var colliderList = workingObject.GetComponentsInChildren<MeshCollider>();
         if (colliderList.Length > 1)
         {
-            for (int i = 1; i < colliderList.Length; i++)
+            for (int i = 1; i < colliderList.Length - 1; i++)
             {
                 var child = new GameObject("");
                 child.AddComponent<MeshCollider>();

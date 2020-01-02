@@ -22,6 +22,11 @@ public class SimplePrefab : MonoBehaviour
             var furni = Instantiate(t.gameObject);
             furni.transform.SetParent(part.transform);
 
+            //layer for child (for item interaction)
+            furni.layer = LayerMask.NameToLayer("PartBehaviour");
+            for (int i = 0; i < furni.transform.childCount; i++)
+                furni.transform.GetChild(i).gameObject.layer = LayerMask.NameToLayer("PartBehaviour");
+
             // Modify
             // To do: update by balancing in the future?
             var pb = part.GetComponent<PartBehaviour>();
@@ -34,7 +39,7 @@ public class SimplePrefab : MonoBehaviour
             pb.UseConditionalPhysics = true;
             pb.PhysicsLayers = LayerMask.GetMask("Default", "Furniture");
 
-            // Default Custom Mesh Bounds (for collision dectection)
+            // Default Custom Mesh Bounds (for collision conflict dectection)
             pb.MeshBounds = part.gameObject.GetChildsBounds();
 
             // Stable Support

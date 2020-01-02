@@ -8,11 +8,13 @@ public class PanZoomManager : MonoBehaviour
 {
     public float zoomOutMin = 30;
     public float zoomOutMax = 80;
-    public float zoomSpeed = 0.2f;
+    public float orthoZoomMin = 1f;
+    public float orthoZoomMax = 10f;
+    public float zoomSpeed = 0.02f;
     public float groundZ = 0;
     public float moveSpeed = 0.5f;
 
-    private Vector3 touchStart, direction;
+    private Vector3 touchStart = Vector3.up, direction;
 
     private enum FingerMode
     {
@@ -43,10 +45,13 @@ public class PanZoomManager : MonoBehaviour
         if (Input.GetMouseButton(0))
             UpdateCameraMove();
 
+        if (Input.GetMouseButtonUp(0))
+            touchStart = Vector3.up;
+
         UpdateCameraZoom(Input.GetAxis("Mouse ScrollWheel") * 5f);
 
-        if (Input.GetKey(KeyCode.R))
-            UpdateCameraRotate(10f);
+        //if (Input.GetKey(KeyCode.R))
+        //    UpdateCameraRotate(10f);
 
         return;
 #endif
@@ -83,7 +88,7 @@ public class PanZoomManager : MonoBehaviour
             }
             else
             {
-                UpdateCameraZoom(difference * zoomSpeed);
+                UpdateCameraZoom(difference * 0.2f);// zoomSpeed);
                 UpdateCameraRotate(angle);
             }
         }
@@ -106,18 +111,23 @@ public class PanZoomManager : MonoBehaviour
     {
         finger = FingerMode.one;
 
-        if (Camera.main.orthographic)
-            touchStart = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        else
+        //if (Camera.main.orthographic)
+        //    touchStart = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        //else
             touchStart = GetWorldPosition(groundZ);
+
     }
 
     private void UpdateCameraMove()
     {
         finger = FingerMode.one;
 
-        if (Camera.main.orthographic)
-            direction = touchStart - Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        //if (Camera.main.orthographic)
+        //    direction = touchStart - Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        //else
+
+        if (touchStart == Vector3.up)
+            direction = Vector3.zero;
         else
             direction = touchStart - GetWorldPosition(groundZ);
 
@@ -151,7 +161,8 @@ public class PanZoomManager : MonoBehaviour
         if (Camera.main.orthographic)
         {
             Camera.main.orthographicSize -= increment;
-            Camera.main.orthographicSize = Mathf.Max(Camera.main.orthographicSize, .1f);
+            Camera.main.orthographicSize = Mathf.Max(Camera.main.orthographicSize, orthoZoomMin);
+            Camera.main.orthographicSize = Mathf.Min(Camera.main.orthographicSize, orthoZoomMax);
         }
         else
         {
