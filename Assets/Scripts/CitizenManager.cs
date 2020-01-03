@@ -82,13 +82,13 @@ public class CitizenManager : MonoBehaviour
 
             CustomerArr = new GameObject[GameDataManager.Instance.AvailableChairList.Count*7/10];
 
-            int waitForServe = random.Next(1, GameDataManager.Instance.AvailableChairList.Count);
+            int waitForServe = random.Next(1, CustomerArr.Length);
             for (int i = 0; i < waitForServe; i++)
             {
-                int chariIndex = random.Next(0, GameDataManager.Instance.AvailableChairList.Count);
-                CustomerArr[i] = Instantiate(Malcolm, GameDataManager.Instance.AvailableChairList.ElementAt(chariIndex).Spots.ElementAt(0), Quaternion.identity);
-                Chair chair = GameDataManager.Instance.AvailableChairList.ElementAt(chariIndex);
-                GameDataManager.Instance.AvailableChairList.RemoveAt(chariIndex);
+                int chairIndex = random.Next(0, GameDataManager.Instance.AvailableChairList.Count);
+                CustomerArr[i] = Instantiate(Malcolm, GameDataManager.Instance.AvailableChairList.ElementAt(chairIndex).Spots.ElementAt(0), Quaternion.identity);
+                Chair chair = GameDataManager.Instance.AvailableChairList.ElementAt(chairIndex);
+                GameDataManager.Instance.AvailableChairList.RemoveAt(chairIndex);
                 GameDataManager.Instance.UnavailableChairList.Add(chair);
                 if (producing)
                 {
@@ -98,6 +98,14 @@ public class CitizenManager : MonoBehaviour
 
                 };
             }
+
+            int CustomerWalkingToRestaurant = CustomerArr.Length - waitForServe;
+            for (int i = 0; i < CustomerWalkingToRestaurant; i++)
+            {
+                int spawnIndex = random.Next(0, points.Count);
+                CustomerArr[i] = Instantiate(Malcolm, points.ElementAt(spawnIndex).position, Quaternion.identity);
+            }
+
 
         }
         else
