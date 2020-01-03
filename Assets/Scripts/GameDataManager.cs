@@ -25,6 +25,7 @@ public class GameDataManager : MonoBehaviour
     private static GameDataManager instance;
     #endregion
 
+    #region furniture list/dict
     private Dictionary<Vector3, Desk> deskDict;
     public Dictionary<Vector3,Desk> DeskDict
     {
@@ -38,6 +39,38 @@ public class GameDataManager : MonoBehaviour
         set
         {
             deskDict = value;
+        }
+    }
+
+    private List<Chair> availableChairList;
+    public List<Chair> AvailableChairList
+    {
+        get
+        {
+            if (availableChairList == null)
+                availableChairList = new List<Chair>();
+
+            return availableChairList;
+        }
+        set
+        {
+            availableChairList = value;
+        }
+    }
+
+    private List<Chair> unavailableChairList;
+    public List<Chair> UnavailableChairList
+    {
+        get
+        {
+            if (unavailableChairList == null)
+                unavailableChairList = new List<Chair>();
+
+            return unavailableChairList;
+        }
+        set
+        {
+            unavailableChairList = value;
         }
     }
 
@@ -56,6 +89,7 @@ public class GameDataManager : MonoBehaviour
             registerDict = value;
         }
     }
+    #endregion
 
     #region Save Load
     public void SaveData()

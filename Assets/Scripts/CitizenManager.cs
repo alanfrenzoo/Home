@@ -25,12 +25,14 @@ public class CitizenManager : MonoBehaviour
     public ExternalBehavior WanderAI;
 
     private GameObject[] WanderingPeopleArr;
+    private GameObject[] CustomerArr;
     private List<Transform> points;
     private ExternalBehavior[] WanderingAI;
     // Start is called before the first frame update
     void Start()
     {
         instance = this;
+        System.Random random = new System.Random();
 
         points = PasserbyPoints.GetComponentsInChildren<Transform>().ToList();
         points.RemoveAt(0);
@@ -43,22 +45,59 @@ public class CitizenManager : MonoBehaviour
                 WanderingAI[i] = UnityEngine.Object.Instantiate(WanderAI);
                 WanderingAI[i].Init();
             }
-            System.Random random = new System.Random();
+            
             CreateWanderingPeople(random);
         }
-        bool haveDesk = GameDataManager.Instance.DeskDict.Count > 0;
+
+        bool haveRegister = GameDataManager.Instance.RegisterDict.Count > 0;
+        if (haveRegister)
+        {
+            Register reg = GameDataManager.Instance.RegisterDict.ElementAt(0).Value;
+            GameObject staff = Instantiate(Josh, reg.Spots.ElementAt(0), Quaternion.identity);
+            BehaviorTree bt = staff.GetComponent<BehaviorTree>();
+            if (bt != null)
+            {
+            }
+        }
+
+        int DeskCount = GameDataManager.Instance.DeskDict.Count;
+        bool haveDesk = DeskCount > 0;
         bool producing = false;
         if (haveDesk)
         {
             UnityEngine.Debug.Log("haveDesk");
-            int deskCount = GameDataManager.Instance.DeskDict.Count;
+            Dictionary<Vector3, Desk> deskDict = GameDataManager.Instance.DeskDict;
 
-            if (producing)
+            for (int i = 0; i < DeskCount; i++)
             {
+                Desk desk = deskDict.ElementAt(i).Value;
+                if (desk.Chairs != null)
+                {
+                    for (int j = 0; j < desk.Chairs.Length; j++)
+                    {
+                        GameDataManager.Instance.AvailableChairList.Add(desk.Chairs[j]);
+                    }
+                }
             }
-            else
+
+            CustomerArr = new GameObject[GameDataManager.Instance.AvailableChairList.Count*7/10];
+
+            int waitForServe = random.Next(1, GameDataManager.Instance.AvailableChairList.Count);
+            for (int i = 0; i < waitForServe; i++)
             {
-            };
+                int chariIndex = random.Next(0, GameDataManager.Instance.AvailableChairList.Count);
+                CustomerArr[i] = Instantiate(Malcolm, GameDataManager.Instance.AvailableChairList.ElementAt(chariIndex).Spots.ElementAt(0), Quaternion.identity);
+                Chair chair = GameDataManager.Instance.AvailableChairList.ElementAt(chariIndex);
+                GameDataManager.Instance.AvailableChairList.RemoveAt(chariIndex);
+                GameDataManager.Instance.UnavailableChairList.Add(chair);
+                if (producing)
+                {
+                }
+                else
+                {
+
+                };
+            }
 
         }
         else
@@ -71,7 +110,7 @@ public class CitizenManager : MonoBehaviour
     {
         for (int i = 0; i < PeopleWandering; i++)
         {
-            int CharacterRandom = random.Next(0, 3);
+            int CharacterRandom = random.Next(0, 2);
             int StartingPosition = random.Next(0, points.Count);
 
             switch (CharacterRandom)
@@ -80,9 +119,6 @@ public class CitizenManager : MonoBehaviour
                     WanderingPeopleArr[i] = Instantiate(Remy, points.ElementAt(StartingPosition).position, Quaternion.identity);
                     break;
                 case 1:
-                    WanderingPeopleArr[i] = Instantiate(Malcolm, points.ElementAt(StartingPosition).position, Quaternion.identity);
-                    break;
-                case 2:
                     WanderingPeopleArr[i] = Instantiate(Megan, points.ElementAt(StartingPosition).position, Quaternion.identity);
                     break;
                 default:

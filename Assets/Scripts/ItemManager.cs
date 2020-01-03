@@ -293,7 +293,7 @@ public class ItemManager : MonoBehaviour
                     spotcr.transform.localPosition = new Vector3(1f, 0f, 0f);
                     spotcr.transform.localRotation = Quaternion.Euler(new Vector3(0f, -90f, 0f));
 
-                    newChairArr[i - 1] = new Chair(child.transform.position, new Vector3[] { spotcl.transform.position, spotcr.transform.position });
+                    newChairArr[i - 1] = new Chair(child.transform.position, new Vector3[] { spotcl.transform.position, spotcr.transform.position }, desk);
                 }
                 desk.Chairs = newChairArr;
                 GameDataManager.Instance.DeskDict[colliderToSpawn.transform.position] = desk;
