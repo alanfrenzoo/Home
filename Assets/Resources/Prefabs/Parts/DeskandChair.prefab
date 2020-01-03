@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AdvancedFeatures: 1
-  Id: 0
+  Id: 12
   Name: DeskandChair
   Type: 8
   OccupancyParts: []

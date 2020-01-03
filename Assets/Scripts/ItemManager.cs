@@ -193,112 +193,121 @@ public class ItemManager : MonoBehaviour
 
         entityManager.SetComponentData(instance, new Translation { Value = position });
         entityManager.SetComponentData(instance, new Rotation { Value = rotation });
-        entityManager.AddComponentData(instance, new FurniTag { Value = TargetItemIndex });
 
-        var colliderToSpawn = new GameObject(TargetItemIndex.ToString());
-        colliderToSpawn.AddComponent<MeshCollider>();
-        colliderToSpawn.GetComponent<MeshCollider>().sharedMesh = workingObject.GetComponentInChildren<MeshCollider>().sharedMesh;
-        colliderToSpawn.transform.position = position;
-        colliderToSpawn.transform.rotation = rotation;
-        colliderToSpawn.transform.SetParent(PlacementContainer);
-        colliderToSpawn.layer = LayerMask.NameToLayer("Furniture");
-
-        // Save Temp Data
-        AddOrRemoveEndcodeData(colliderToSpawn.transform);
-
-        if (BuilderBehaviour.Instance.CurrentPreview.Type == EasyBuildSystem.Runtimes.Internal.Part.PartType.Pillar)
-        {
-            // Hard code for Desk Spot
-            var spotrl = new GameObject("spot_register_l");
-            spotrl.transform.SetParent(colliderToSpawn.transform);
-            spotrl.transform.localPosition = new Vector3(-2f, 0f, 0f);
-            spotrl.transform.localRotation = Quaternion.Euler(new Vector3(0f, 90f, 0f));
-            var spotrr = new GameObject("spot_register_r");
-            spotrr.transform.SetParent(colliderToSpawn.transform);
-            spotrr.transform.localPosition = new Vector3(2f, 0f, 0f);
-            spotrr.transform.localRotation = Quaternion.Euler(new Vector3(0f, -90f, 0f));
-
-            Register register;
-            GameDataManager.Instance.RegisterDict.TryGetValue(colliderToSpawn.transform.position, out register);
-            if (register == null)
-            {
-                UnityEngine.Debug.Log("Register == null");
-                register = new Register(colliderToSpawn.transform.position, new Vector3[] { spotrl.transform.position, spotrr.transform.position });
-                GameDataManager.Instance.RegisterDict.Add(register.Position, register);
-            }
-            else
-            {
-                UnityEngine.Debug.Log("Register != null");
-                register.Position = colliderToSpawn.transform.position;
-                register.Spots = new Vector3[] { spotrl.transform.position, spotrr.transform.position };
-            }
-        }
-
-        bool isDesk = false;
-        Desk desk = null;
-        if (BuilderBehaviour.Instance.CurrentPreview.Type == EasyBuildSystem.Runtimes.Internal.Part.PartType.Desk)
-        {
-            // Hard code for stable support
-            colliderToSpawn.tag = "Desk";
-
-            // Hard code for Desk Spot
-            var spotdl = new GameObject("spot_desk_l");
-            spotdl.transform.SetParent(colliderToSpawn.transform);
-            spotdl.transform.localPosition = new Vector3(-2f, 0f, 0f);
-            spotdl.transform.localRotation = Quaternion.Euler(new Vector3(0f, 90f, 0f));
-            var spotdr = new GameObject("spot_desk_r");
-            spotdr.transform.SetParent(colliderToSpawn.transform);
-            spotdr.transform.localPosition = new Vector3(2f, 0f, 0f);
-            spotdr.transform.localRotation = Quaternion.Euler(new Vector3(0f, -90f, 0f));
-
-            GameDataManager.Instance.DeskDict.TryGetValue(colliderToSpawn.transform.position, out desk);
-            if (desk == null)
-            {
-                UnityEngine.Debug.Log("desk == null");
-                desk = new Desk(colliderToSpawn.transform.position, new Vector3[] { spotdl.transform.position, spotdr.transform.position });
-                GameDataManager.Instance.DeskDict.Add(desk.Position, desk);
-            }
-            else
-            {
-                desk.Position = colliderToSpawn.transform.position;
-                desk.Spots = new Vector3[] { spotdl.transform.position, spotdr.transform.position };
-            }
-
-            isDesk = true;
-        }
+        if (BuilderBehaviour.Instance.CurrentPreview.Type == EasyBuildSystem.Runtimes.Internal.Part.PartType.Floor)
+            entityManager.AddComponentData(instance, new FloorTag { Value = TargetItemIndex });
+        else
+            entityManager.AddComponentData(instance, new FurniTag { Value = TargetItemIndex });
 
         var colliderList = workingObject.GetComponentsInChildren<MeshCollider>();
-        if (colliderList.Length > 1)
+        if (colliderList.Length > 0)
         {
-            if (isDesk)
+            var colliderToSpawn = new GameObject(TargetItemIndex.ToString());
+            colliderToSpawn.AddComponent<MeshCollider>();
+            colliderToSpawn.GetComponent<MeshCollider>().sharedMesh = workingObject.GetComponentInChildren<MeshCollider>().sharedMesh;
+            colliderToSpawn.transform.position = position;
+            colliderToSpawn.transform.rotation = rotation;
+            colliderToSpawn.transform.SetParent(PlacementContainer);
+            colliderToSpawn.layer = LayerMask.NameToLayer("Furniture");
+
+            // Save Temp Data
+            AddOrRemoveEndcodeData(colliderToSpawn.transform);
+
+            if (BuilderBehaviour.Instance.CurrentPreview.Type == EasyBuildSystem.Runtimes.Internal.Part.PartType.Pillar)
             {
-                Chair[] newChairArr = new Chair[colliderList.Length - 1];
-                for (int i = 1; i < colliderList.Length - 1; i++)
+                // Hard code for Desk Spot
+                var spotrl = new GameObject("spot_register_l");
+                spotrl.transform.SetParent(colliderToSpawn.transform);
+                spotrl.transform.localPosition = new Vector3(-2f, 0f, 0f);
+                spotrl.transform.localRotation = Quaternion.Euler(new Vector3(0f, 90f, 0f));
+                var spotrr = new GameObject("spot_register_r");
+                spotrr.transform.SetParent(colliderToSpawn.transform);
+                spotrr.transform.localPosition = new Vector3(2f, 0f, 0f);
+                spotrr.transform.localRotation = Quaternion.Euler(new Vector3(0f, -90f, 0f));
+
+                Register register;
+                GameDataManager.Instance.RegisterDict.TryGetValue(colliderToSpawn.transform.position, out register);
+                if (register == null)
                 {
-                    var child = new GameObject("");
-                    child.AddComponent<MeshCollider>();
-                    child.GetComponent<MeshCollider>().sharedMesh = colliderList[i].sharedMesh;
-                    child.transform.SetParent(colliderToSpawn.transform);
-                    child.transform.localPosition = colliderList[i].transform.localPosition;
-                    child.transform.localRotation = colliderList[i].transform.localRotation;
-
-                    // Hard code for Chair Spot
-                    // Hard code for Desk Spot
-                    var spotcl = new GameObject("spot_chair_l");
-                    spotcl.transform.SetParent(child.transform);
-                    spotcl.transform.localPosition = new Vector3(-1f, 0f, 0f);
-                    spotcl.transform.localRotation = Quaternion.Euler(new Vector3(0f, 90f, 0f));
-                    var spotcr = new GameObject("spot_chair_r");
-                    spotcr.transform.SetParent(child.transform);
-                    spotcr.transform.localPosition = new Vector3(1f, 0f, 0f);
-                    spotcr.transform.localRotation = Quaternion.Euler(new Vector3(0f, -90f, 0f));
-
-                    newChairArr[i - 1] = new Chair(child.transform.position, new Vector3[] { spotcl.transform.position, spotcr.transform.position }, desk);
+                    UnityEngine.Debug.Log("Register == null");
+                    register = new Register(colliderToSpawn.transform.position, new Vector3[] { spotrl.transform.position, spotrr.transform.position });
+                    GameDataManager.Instance.RegisterDict.Add(register.Position, register);
                 }
-                desk.Chairs = newChairArr;
-                GameDataManager.Instance.DeskDict[colliderToSpawn.transform.position] = desk;
+                else
+                {
+                    UnityEngine.Debug.Log("Register != null");
+                    register.Position = colliderToSpawn.transform.position;
+                    register.Spots = new Vector3[] { spotrl.transform.position, spotrr.transform.position };
+                }
+            }
+
+            bool isDesk = false;
+            Desk desk = null;
+            if (BuilderBehaviour.Instance.CurrentPreview.Type == EasyBuildSystem.Runtimes.Internal.Part.PartType.Desk)
+            {
+                // Hard code for stable support
+                colliderToSpawn.tag = "Desk";
+
+                // Hard code for Desk Spot
+                var spotdl = new GameObject("spot_desk_l");
+                spotdl.transform.SetParent(colliderToSpawn.transform);
+                spotdl.transform.localPosition = new Vector3(-2f, 0f, 0f);
+                spotdl.transform.localRotation = Quaternion.Euler(new Vector3(0f, 90f, 0f));
+                var spotdr = new GameObject("spot_desk_r");
+                spotdr.transform.SetParent(colliderToSpawn.transform);
+                spotdr.transform.localPosition = new Vector3(2f, 0f, 0f);
+                spotdr.transform.localRotation = Quaternion.Euler(new Vector3(0f, -90f, 0f));
+
+                GameDataManager.Instance.DeskDict.TryGetValue(colliderToSpawn.transform.position, out desk);
+                if (desk == null)
+                {
+                    UnityEngine.Debug.Log("desk == null");
+                    desk = new Desk(colliderToSpawn.transform.position, new Vector3[] { spotdl.transform.position, spotdr.transform.position });
+                    GameDataManager.Instance.DeskDict.Add(desk.Position, desk);
+                }
+                else
+                {
+                    desk.Position = colliderToSpawn.transform.position;
+                    desk.Spots = new Vector3[] { spotdl.transform.position, spotdr.transform.position };
+                }
+
+                isDesk = true;
+            }
+
+            if (colliderList.Length > 1)
+            {
+                if (isDesk)
+                {
+                    Chair[] newChairArr = new Chair[colliderList.Length - 1];
+                    for (int i = 1; i < colliderList.Length - 1; i++)
+                    {
+                        var child = new GameObject("");
+                        child.AddComponent<MeshCollider>();
+                        child.GetComponent<MeshCollider>().sharedMesh = colliderList[i].sharedMesh;
+                        child.transform.SetParent(colliderToSpawn.transform);
+                        child.transform.localPosition = colliderList[i].transform.localPosition;
+                        child.transform.localRotation = colliderList[i].transform.localRotation;
+
+                        // Hard code for Chair Spot
+                        // Hard code for Desk Spot
+                        var spotcl = new GameObject("spot_chair_l");
+                        spotcl.transform.SetParent(child.transform);
+                        spotcl.transform.localPosition = new Vector3(-1f, 0f, 0f);
+                        spotcl.transform.localRotation = Quaternion.Euler(new Vector3(0f, 90f, 0f));
+                        var spotcr = new GameObject("spot_chair_r");
+                        spotcr.transform.SetParent(child.transform);
+                        spotcr.transform.localPosition = new Vector3(1f, 0f, 0f);
+                        spotcr.transform.localRotation = Quaternion.Euler(new Vector3(0f, -90f, 0f));
+
+                        newChairArr[i - 1] = new Chair(child.transform.position, new Vector3[] { spotcl.transform.position, spotcr.transform.position }, desk);
+                    }
+                    desk.Chairs = newChairArr;
+                    GameDataManager.Instance.DeskDict[colliderToSpawn.transform.position] = desk;
+                }
             }
         }
+
+            
 
         // Update the NavMesh
         EventHandlers.PlacedPart(null, null);
@@ -400,6 +409,35 @@ public class ItemManager : MonoBehaviour
         //Handle in PanZoomManager
     }
 
+    public void ShowHideAllFurniture(bool forceShow = false, bool forceHide = false)
+    {
+        if (forceShow)
+            IsShowingItem = false;
+        if (forceHide)
+            IsShowingItem = true;
+
+        if (IsShowingItem)
+        {
+            foreach (var e in entityManager.GetAllEntities())
+            {
+                if (entityManager.HasComponent<FurniTag>(e) || entityManager.HasComponent<Parent>(e))
+                    entityManager.AddComponentData(e, new Disabled { });
+            }
+            PlacementContainer.gameObject.SetActive(false);
+            IsShowingItem = false;
+        }
+        else
+        {
+            foreach (var e in entityManager.GetAllEntities())
+            {
+                if (entityManager.HasComponent<FurniTag>(e) || entityManager.HasComponent<Parent>(e))
+                    entityManager.RemoveComponent<Disabled>(e);
+            }
+            PlacementContainer.gameObject.SetActive(true);
+            IsShowingItem = true;
+        }
+    }
+
     public void AddOrRemoveEndcodeData(Transform collider, bool Add = true)
     {
         List<string> temp = ItemDataList;
@@ -485,6 +523,13 @@ public class ItemManager : MonoBehaviour
     {
         get => itemDataList == null ? new List<string>() : itemDataList;
         set => itemDataList = value;
+    }
+
+    private bool isShowingItem = true;
+    public bool IsShowingItem
+    {
+        get => isShowingItem;
+        set => isShowingItem = value;
     }
 
     private void OnApplicationPause(bool isPaused)

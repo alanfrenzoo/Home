@@ -135,7 +135,10 @@ public class ControlManager : MonoBehaviour
                 if (Input.GetMouseButton(0))
                 {
                     ItemManager.instance.InstantiateItem(TargetUIItemIndex);
-                    leftBarController.GetComponentInChildren<ScrollRect>().enabled = false;
+                    //leftBarController.GetComponentInChildren<ScrollRect>().enabled = false;
+                    var srList = leftBarController.GetComponentsInChildren<ScrollRect>();
+                    foreach (var sr in srList)
+                        sr.enabled = false;
                 }
                 TargetUIItemIndex = -1;
             }
