@@ -307,7 +307,7 @@ public class ItemManager : MonoBehaviour
             }
         }
 
-            
+
 
         // Update the NavMesh
         EventHandlers.PlacedPart(null, null);
@@ -433,7 +433,9 @@ public class ItemManager : MonoBehaviour
                 if (entityManager.HasComponent<FurniTag>(e) || entityManager.HasComponent<Parent>(e))
                     entityManager.RemoveComponent<Disabled>(e);
             }
-            PlacementContainer.gameObject.SetActive(true);
+            if (BuilderBehaviour.Instance.CurrentPreview == null)
+                PlacementContainer.gameObject.SetActive(true);
+
             IsShowingItem = true;
         }
     }
