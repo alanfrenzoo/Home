@@ -331,10 +331,14 @@ namespace EasyBuildSystem.Runtimes.Internal.Builder
             if (CurrentPreview == null)
                 return;
 
-            if (!ScreenTouchManager.instance.CheckOnEditingItemPress())
+            if (!ScreenTouchManager.instance.CheckOnEditingItemPress() && ItemManager.instance.CurrentGameMode == ItemManager.GameModeCode.DecorateFurniture)
                 return;
 
-            if (ScreenTouchManager.instance.CheckInputOnStationary())
+            if(!ControlManager.instance.IsJustInstantiated)
+                if (!ScreenTouchManager.instance.CheckOnButtonUpWithoutMove() && ItemManager.instance.CurrentGameMode == ItemManager.GameModeCode.DecorateFloor)
+                    return;
+
+            if (ScreenTouchManager.instance.CheckInputOnStationary() && ItemManager.instance.CurrentGameMode == ItemManager.GameModeCode.DecorateFurniture)
                 return;
 
             RaycastHit Hit;

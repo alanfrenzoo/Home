@@ -17,7 +17,20 @@ public class AreaReferenceGenerator : MonoBehaviour
         plane.transform.localScale = new Vector3(area.HalfWidth * 2, 0.05f, area.HalfLength * 2);
         plane.layer = LayerMask.NameToLayer("House");
         plane.SetActive(false);
-        
+
+        var xStart = Mathf.RoundToInt(transform.localPosition.x) - Mathf.RoundToInt(area.HalfWidth);
+        var xEnd = Mathf.RoundToInt(transform.localPosition.x) + Mathf.RoundToInt(area.HalfWidth);
+        var zStart = Mathf.RoundToInt(transform.localPosition.z) - Mathf.RoundToInt(area.HalfLength);
+        var zEnd = Mathf.RoundToInt(transform.localPosition.z) + Mathf.RoundToInt(area.HalfLength);
+
+        for (int x = xStart + 1; x < xEnd; x++)
+        {
+            for (int z = zStart + 1; z < zEnd; z++)
+            {
+                string pos = string.Format("({0}, 0, {1})", x, z);
+                ItemManager.instance.PlaceFloorTile(true, pos);
+            }
+        }
 
     }
 

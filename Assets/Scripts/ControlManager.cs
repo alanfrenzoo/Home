@@ -42,7 +42,10 @@ public class ControlManager : MonoBehaviour
             {
                 if (ItemManager.instance.isUsingECS)
                 {
-                    ItemManager.instance.PlaceItem();
+                    if (ItemManager.instance.CurrentGameMode == ItemManager.GameModeCode.DecorateFurniture)
+                        ItemManager.instance.PlaceItem();
+                    if (ItemManager.instance.CurrentGameMode == ItemManager.GameModeCode.DecorateFloor)
+                        ItemManager.instance.PlaceFloorTile();
                 }
                 else
                 {
@@ -134,6 +137,7 @@ public class ControlManager : MonoBehaviour
             {
                 if (Input.GetMouseButton(0))
                 {
+                    IsJustInstantiated = true;
                     ItemManager.instance.InstantiateItem(TargetUIItemIndex);
                     //leftBarController.GetComponentInChildren<ScrollRect>().enabled = false;
                     var srList = leftBarController.GetComponentsInChildren<ScrollRect>();
@@ -190,6 +194,13 @@ public class ControlManager : MonoBehaviour
     {
         get => targetUIItemIndex;
         set => targetUIItemIndex = value;
+    }
+
+    private bool isJustInstantiated = false;
+    public bool IsJustInstantiated
+    {
+        get => isJustInstantiated;
+        set => isJustInstantiated = value;
     }
 
 }

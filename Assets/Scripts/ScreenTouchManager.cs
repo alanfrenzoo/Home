@@ -57,6 +57,7 @@ public class ScreenTouchManager : MonoBehaviour
         }
         else if (Input.GetMouseButtonUp(0))
         {
+            ControlManager.instance.IsJustInstantiated = false;
             ResetTimer();
             CancelInteract();
         }
@@ -135,7 +136,7 @@ public class ScreenTouchManager : MonoBehaviour
             return false;
 #endif
 
-        if (Input.GetTouch(0).phase == TouchPhase.Stationary)
+        if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Stationary)
             return true;
         else
             return false;
@@ -223,6 +224,29 @@ public class ScreenTouchManager : MonoBehaviour
 
         }
         return false;
+    }
+
+    public bool CheckOnButtonUpWithoutMove()
+    {
+#if UNITY_EDITOR
+        if (Input.GetMouseButtonUp(0))
+        {
+            if (startPos == Input.mousePosition)
+            {
+                return true;
+            }
+        }
+        return false;
+#endif
+        if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Ended)
+        {
+            if (Input.GetTouch(0).deltaPosition == Vector2.zero)
+            {
+                return true;
+            }
+        }
+        return false;
+
     }
 
     public void UpdateCamera()

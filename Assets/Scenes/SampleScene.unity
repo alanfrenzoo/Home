@@ -2071,6 +2071,8 @@ MonoBehaviour:
   isUsingArea: 1
   AreaManager: {fileID: 582875743}
   PlacementContainer: {fileID: 609092405}
+  FloorTileEmpty: {fileID: 373323322431517556, guid: f4c447f6abb93944f85a220e7a510273,
+    type: 3}
 --- !u!4 &281393462
 Transform:
   m_ObjectHideFlags: 0

@@ -25,7 +25,7 @@ public class AndroidBuilderBehaviour : BuilderBehaviour
         if (EventSystem.current && (EventSystem.current.IsPointerOverGameObject(0) || EventSystem.current.IsPointerOverGameObject(1) || EventSystem.current.IsPointerOverGameObject()))
             return;
 
-        if (Input.GetMouseButton(0))
+        //if (Input.GetMouseButton(0))
             base.Update();
     }
 }

@@ -33,6 +33,8 @@ public class ItemManager : MonoBehaviour
     public GameObject AreaManager;
     public Transform PlacementContainer;
 
+    public MeshRenderer FloorTileEmpty;
+
     public enum GameModeCode
     {
         View,
@@ -43,16 +45,14 @@ public class ItemManager : MonoBehaviour
     private void Awake()
     {
         instance = this;
+        settings = GameObjectConversionSettings.FromWorld(World.DefaultGameObjectInjectionWorld, null);
+        entityManager = World.DefaultGameObjectInjectionWorld.EntityManager;
+        indexEntityPair = new Dictionary<int, Entity>();
     }
 
     public void Start()
     {
-        settings = GameObjectConversionSettings.FromWorld(World.DefaultGameObjectInjectionWorld, null);
-        entityManager = World.DefaultGameObjectInjectionWorld.EntityManager;
-        indexEntityPair = new Dictionary<int, Entity>();
-
         GameDataManager.Instance.LoadData();
-
     }
 
     private void Update()
@@ -88,7 +88,7 @@ public class ItemManager : MonoBehaviour
                 UpdateCameraMovement();
             }
         }
-        else if (CurrentGameMode == GameModeCode.DecorateFurniture)
+        else if (CurrentGameMode == GameModeCode.DecorateFurniture || CurrentGameMode == GameModeCode.DecorateFloor)
         {
             if (ScreenTouchManager.instance.CheckOnItemPress())
             {
@@ -307,8 +307,6 @@ public class ItemManager : MonoBehaviour
             }
         }
 
-
-
         // Update the NavMesh
         EventHandlers.PlacedPart(null, null);
 
@@ -329,6 +327,41 @@ public class ItemManager : MonoBehaviour
         BuilderBehaviour.Instance.HasSocket = false;
 
         ClearReferencingAndResetMode();
+    }
+
+    public void PlaceFloorTile(bool isDefault = false, string encodedPos = "")
+    {
+        var workingObject = isDefault ? FloorTileEmpty.gameObject : BuilderBehaviour.Instance.SelectedPrefab.transform.GetChild(0).gameObject;
+        var position = isDefault ? PartModel.ToVector3(encodedPos) : BuilderBehaviour.Instance.CurrentPreview.transform.position + workingObject.transform.localPosition;
+        position = new Vector3(position.x, workingObject.transform.localPosition.y, position.z);
+
+        if (isDefault)
+        {
+            Entity prefab;
+            if (indexEntityPair.ContainsKey(-1)) //EmptyFloor
+            {
+                indexEntityPair.TryGetValue(-1, out prefab);
+            }
+            else
+            {
+                // Create entity prefab from the game object hierarchy once
+                prefab = GameObjectConversionUtility.ConvertGameObjectHierarchy(workingObject, settings);
+                indexEntityPair[-1] = prefab;
+            }
+            var instance = entityManager.Instantiate(prefab);
+
+            entityManager.SetComponentData(instance, new Translation { Value = position });
+            entityManager.AddComponentData(instance, new FloorTag { Value = -1 });
+        }
+        else
+        {
+            Entity entities = entityManager.CreateEntity();
+            entityManager.AddComponentData(entities, new Translation { Value = position });
+            entityManager.AddComponentData(entities, new ReplaceTag { Value = TargetItemIndex });
+
+            ClearReferencingAndResetMode();
+        }
+
     }
 
     public void CancelPlacement()
@@ -433,7 +466,8 @@ public class ItemManager : MonoBehaviour
                 if (entityManager.HasComponent<FurniTag>(e) || entityManager.HasComponent<Parent>(e))
                     entityManager.RemoveComponent<Disabled>(e);
             }
-            if (BuilderBehaviour.Instance.CurrentPreview == null)
+
+            if (CurrentGameMode != GameModeCode.DecorateFloor)
                 PlacementContainer.gameObject.SetActive(true);
 
             IsShowingItem = true;
@@ -510,13 +544,15 @@ public class ItemManager : MonoBehaviour
             }
             else if (currentGameMode == GameModeCode.DecorateFurniture)
             {
-                //Show Grid
                 AreaManager.transform.GetChild(0).gameObject.SetActive(true);
+                ShowHideAllFurniture(true);
             }
-            //else if (currentGameMode == GameModeCode.DecorateFloor)
-            //{
-            //Prepare for Show/Hide Items & Character
-            //}
+            else if (currentGameMode == GameModeCode.DecorateFloor)
+            {
+                CancelPlacement();
+                AreaManager.transform.GetChild(0).gameObject.SetActive(true);
+                PlacementContainer.gameObject.SetActive(false);
+            }
         }
     }
 
@@ -575,5 +611,6 @@ public class ItemManager : MonoBehaviour
             PlaceItem(true, Position, Rotation);
 
         }
+
     }
 }

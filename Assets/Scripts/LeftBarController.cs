@@ -53,34 +53,30 @@ public class LeftBarController : MonoBehaviour
 
     private void toggleFurniture()
     {
-        ItemManager.instance.CancelPlacement();
+        ItemManager.instance.CurrentGameMode = ItemManager.GameModeCode.DecorateFurniture;
 
         FloorViewport.SetActive(false);
         FurnitureViewport.SetActive(true);
 
         ShowHideItemButton.gameObject.SetActive(false);
 
-        ItemManager.instance.ShowHideAllFurniture(true);
-
     }
 
     private void toggleFloor()
     {
-        ItemManager.instance.CancelPlacement();
+        ItemManager.instance.CurrentGameMode = ItemManager.GameModeCode.DecorateFloor;
 
         FloorViewport.SetActive(true);
         FurnitureViewport.SetActive(false);
 
         ShowHideItemButton.gameObject.SetActive(true);
 
-        ItemManager.instance.PlacementContainer.gameObject.SetActive(false);
     }
 
     public void EnterDecorateMode()
     {
         DecorateMark.SetActive(true);
         animator.Play("showLeftBar");
-        ItemManager.instance.CurrentGameMode = ItemManager.GameModeCode.DecorateFurniture;
 
         toggleFurniture();
     }

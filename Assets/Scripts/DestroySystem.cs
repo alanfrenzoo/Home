@@ -29,7 +29,7 @@ public class DestroySystem : ComponentSystem
 
                             BuilderBehaviour.Instance.CreatePreview(BuilderBehaviour.Instance.SelectedPrefab.gameObject);
                             BuilderBehaviour.Instance.CurrentPreview.transform.position = ItemManager.instance.TargetCollider.transform.position;
-                            var y = ItemManager.instance.TargetCollider.transform.rotation.eulerAngles.y - BuilderBehaviour.Instance.CurrentPreview.RotationAxis.y;
+                            var y = ItemManager.instance.TargetCollider.transform.rotation.eulerAngles.y - BuilderBehaviour.Instance.CurrentPreview.RotationAxis.y - BuilderBehaviour.Instance.CurrentRotationOffset.y;
                             var rotateAxis = new Vector3(0f, y, 0f);
                             BuilderBehaviour.Instance.RotatePreview(rotateAxis);
 
@@ -48,29 +48,4 @@ public class DestroySystem : ComponentSystem
 
     }
 
-    public static float3 ToEuler(quaternion quaternion)
-    {
-        float4 q = quaternion.value;
-        double3 res;
-
-        double sinr_cosp = +2.0 * (q.w * q.x + q.y * q.z);
-        double cosr_cosp = +1.0 - 2.0 * (q.x * q.x + q.y * q.y);
-        res.x = math.atan2(sinr_cosp, cosr_cosp);
-
-        double sinp = +2.0 * (q.w * q.y - q.z * q.x);
-        if (math.abs(sinp) >= 1)
-        {
-            res.y = math.PI / 2 * math.sign(sinp);
-        }
-        else
-        {
-            res.y = math.asin(sinp);
-        }
-
-        double siny_cosp = +2.0 * (q.w * q.z + q.x * q.y);
-        double cosy_cosp = +1.0 - 2.0 * (q.y * q.y + q.z * q.z);
-        res.z = math.atan2(siny_cosp, cosy_cosp);
-
-        return (float3)res;
-    }
 }
