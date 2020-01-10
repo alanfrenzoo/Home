@@ -320,7 +320,8 @@ namespace EasyBuildSystem.Runtimes.Internal.Builder
             UpdatePreviewCollisions();
 
             CurrentPreview.gameObject.ChangeAllMaterialsColorInChildren(CurrentPreview.Renderers.ToArray(),
-                AllowPlacement ? BuildManager.Instance.PreviewAllowedColor : BuildManager.Instance.PreviewDeniedColor, SelectedPrefab.PreviewColorLerpTime, SelectedPrefab.PreviewUseColorLerpTime);
+                AllowPlacement ? (ItemManager.instance.CurrentGameMode == ItemManager.GameModeCode.DecorateFloor ? new Color(1f, 1f, 1f) : BuildManager.Instance.PreviewAllowedColor) : BuildManager.Instance.PreviewDeniedColor, SelectedPrefab.PreviewColorLerpTime, SelectedPrefab.PreviewUseColorLerpTime);
+
         }
 
         /// <summary>
@@ -334,12 +335,15 @@ namespace EasyBuildSystem.Runtimes.Internal.Builder
             if (!ScreenTouchManager.instance.CheckOnEditingItemPress() && ItemManager.instance.CurrentGameMode == ItemManager.GameModeCode.DecorateFurniture)
                 return;
 
-            if(!ControlManager.instance.IsJustInstantiated)
+            if (!ControlManager.instance.IsJustInstantiated)
                 if (!ScreenTouchManager.instance.CheckOnButtonUpWithoutMove() && ItemManager.instance.CurrentGameMode == ItemManager.GameModeCode.DecorateFloor)
                     return;
 
             if (ScreenTouchManager.instance.CheckInputOnStationary() && ItemManager.instance.CurrentGameMode == ItemManager.GameModeCode.DecorateFurniture)
                 return;
+
+            if (ItemManager.instance.CurrentGameMode == ItemManager.GameModeCode.DecorateFloor)
+                ItemManager.instance.ClearTempFloorTileReferencing();
 
             RaycastHit Hit;
 
@@ -948,8 +952,9 @@ namespace EasyBuildSystem.Runtimes.Internal.Builder
             CurrentPreview.transform.rotation = Quaternion.Euler(CurrentPreview.RotationAxis + CurrentRotationOffset);
 
             UpdatePreviewCollisions();
+
             CurrentPreview.gameObject.ChangeAllMaterialsColorInChildren(CurrentPreview.Renderers.ToArray(),
-                AllowPlacement ? BuildManager.Instance.PreviewAllowedColor : BuildManager.Instance.PreviewDeniedColor, SelectedPrefab.PreviewColorLerpTime, SelectedPrefab.PreviewUseColorLerpTime);
+                AllowPlacement ? (ItemManager.instance.CurrentGameMode == ItemManager.GameModeCode.DecorateFloor ? new Color(1f, 1f, 1f) : BuildManager.Instance.PreviewAllowedColor) : BuildManager.Instance.PreviewDeniedColor, SelectedPrefab.PreviewColorLerpTime, SelectedPrefab.PreviewUseColorLerpTime);
         }
 
         /// <summary>

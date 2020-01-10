@@ -6,10 +6,12 @@ using EasyBuildSystem.Runtimes.Internal.Area;
 using EasyBuildSystem.Runtimes.Internal.Blueprint.Data;
 using EasyBuildSystem.Runtimes.Internal.Builder;
 using EasyBuildSystem.Runtimes.Internal.Managers;
+using EasyBuildSystem.Runtimes.Internal.Part;
 using EasyBuildSystem.Runtimes.Internal.Storage.Data;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.Entities;
 using Unity.Rendering;
 using Unity.Transforms;
@@ -32,8 +34,11 @@ public class ItemManager : MonoBehaviour
     public bool isUsingArea = true;
     public GameObject AreaManager;
     public Transform PlacementContainer;
+    public Transform BatchFloorTileContainer;
 
     public MeshRenderer FloorTileEmpty;
+    private Vector3 pressStartPos = Vector3.up;
+    private Vector3 newPos = Vector3.up;
 
     public enum GameModeCode
     {
@@ -52,13 +57,14 @@ public class ItemManager : MonoBehaviour
 
     public void Start()
     {
+        AreaManager.GetComponent<AreaReferenceGenerator>().InitFloorTile();
         GameDataManager.Instance.LoadData();
     }
 
     private void Update()
     {
-        if (!Input.GetMouseButton(0))
-            return;
+        //if (!Input.GetMouseButton(0))
+        //    return;
 
         if (CurrentGameMode == GameModeCode.View)
         {
@@ -88,7 +94,7 @@ public class ItemManager : MonoBehaviour
                 UpdateCameraMovement();
             }
         }
-        else if (CurrentGameMode == GameModeCode.DecorateFurniture || CurrentGameMode == GameModeCode.DecorateFloor)
+        else if (CurrentGameMode == GameModeCode.DecorateFurniture)
         {
             if (ScreenTouchManager.instance.CheckOnItemPress())
             {
@@ -118,8 +124,112 @@ public class ItemManager : MonoBehaviour
                 UpdateCameraMovement();
             }
         }
-        //else if (CurrentGameMode == GameModeCode.DecorateFloor)
-        //{ }
+        else if (CurrentGameMode == GameModeCode.DecorateFloor)
+        {
+            if (BuilderBehaviour.Instance.CurrentPreview == null)
+                return;
+
+            if (ScreenTouchManager.instance.CheckOnEditingItemPress() && !ControlManager.instance.IsJustInstantiated && !HasExpandedFloorTile)
+            {
+                RaycastHit Hit;
+                float Distance = BuilderBehaviour.Instance.OutOfRangeDistance == 0 ? BuilderBehaviour.Instance.ActionDistance : BuilderBehaviour.Instance.OutOfRangeDistance;
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition + new Vector3(0, 0, BuilderBehaviour.Instance.RaycastOffset));
+
+                if (Physics.Raycast(ray, out Hit, Distance, BuilderBehaviour.Instance.FreeLayers))
+                {
+                    Vector3 vect;
+                    var temp = BatchFloorTileList;
+                    var currentArea = BatchFloorTileCache;
+
+                    if (pressStartPos == Vector3.up)
+                    {
+                        pressStartPos = BuilderBehaviour.Instance.CurrentPreview.transform.position;
+                    }
+
+                    newPos = MathExtension.PositionToGridPosition(BuilderBehaviour.Instance.PreviewGridSize, BuilderBehaviour.Instance.PreviewGridOffset, Hit.point + BuilderBehaviour.Instance.CurrentPreview.PreviewOffset);
+
+                    // Adding Floortile
+                    var smallx = newPos.x > pressStartPos.x ? Mathf.RoundToInt(pressStartPos.x) : Mathf.RoundToInt(newPos.x);
+                    var largex = newPos.x < pressStartPos.x ? Mathf.RoundToInt(pressStartPos.x) : Mathf.RoundToInt(newPos.x);
+                    var smallz = newPos.z > pressStartPos.z ? Mathf.RoundToInt(pressStartPos.z) : Mathf.RoundToInt(newPos.z);
+                    var largez = newPos.z < pressStartPos.z ? Mathf.RoundToInt(pressStartPos.z) : Mathf.RoundToInt(newPos.z);
+
+                    for (int x = smallx; x <= largex; x++)
+                    {
+                        for (int z = smallz; z <= largez; z++)
+                        {
+                            vect = new Vector3(x, 0.001f, z);
+
+                            if(!(x == Mathf.RoundToInt(newPos.x) && z == Mathf.RoundToInt(newPos.z)))
+                                currentArea.Add(vect);
+
+                            if (!temp.Contains(vect) && !(x == Mathf.RoundToInt(newPos.x) && z == Mathf.RoundToInt(newPos.z)))
+                            {
+                                temp.Add(vect);
+                                InstantiateTempFloorTile(vect);
+                            }
+                        }
+                    }
+
+                    //Removing Floortile
+
+                    var difference = temp.Except(currentArea).ToList();
+                    foreach(var v in difference)
+                    {
+                        for (int i = 0; i < BatchFloorTileContainer.childCount; i++)
+                        {
+                            var ft = BatchFloorTileContainer.GetChild(i);
+                            if (ft.localPosition.Equals(v))
+                            {
+                                temp.Remove(v);
+                                Destroy(ft.gameObject);
+                            }
+                        }
+                    }
+
+                    BatchFloorTileList = temp;
+                    currentArea.Clear();
+
+                    BuilderBehaviour.Instance.CurrentPreview.transform.position = newPos;
+
+                }
+
+            }
+            else
+            {
+                if (!HasExpandedFloorTile)
+                    if (Mathf.RoundToInt(newPos.x) != Mathf.RoundToInt(pressStartPos.x) || Mathf.RoundToInt(newPos.z) != Mathf.RoundToInt(pressStartPos.z))
+                        HasExpandedFloorTile = true;
+
+            }
+        }
+    }
+
+    private void InstantiateTempFloorTile(Vector3 pos)
+    {
+        var ft = Instantiate(BuildManager.Instance.PartsCollection.Parts[TargetItemIndex].gameObject, BatchFloorTileContainer);
+        ft.transform.localPosition = pos;
+
+        var pb = ft.transform.GetComponent<PartBehaviour>();
+        if(pb.CheckAreas())
+            ft.ChangeAllMaterialsColorInChildren(pb.Renderers.ToArray(), BuildManager.Instance.PreviewDeniedColor);
+    }
+
+    public void ClearTempFloorTileReferencing()
+    {
+        // Remove Floortile
+        for (int i = 0; i < BatchFloorTileContainer.childCount; i++)
+        {
+            var ft = BatchFloorTileContainer.GetChild(i);
+            Destroy(ft.gameObject);
+        }
+
+        pressStartPos = Vector3.up;
+        newPos = Vector3.up;
+
+        BatchFloorTileList.Clear();
+        HasExpandedFloorTile = false;
+
     }
 
     public void InstantiateItem(int index)
@@ -329,10 +439,10 @@ public class ItemManager : MonoBehaviour
         ClearReferencingAndResetMode();
     }
 
-    public void PlaceFloorTile(bool isDefault = false, string encodedPos = "")
+    public void PlaceFloorTile(bool isDefault = false, bool isLoad = false, string encodedPos = "")
     {
         var workingObject = isDefault ? FloorTileEmpty.gameObject : BuilderBehaviour.Instance.SelectedPrefab.transform.GetChild(0).gameObject;
-        var position = isDefault ? PartModel.ToVector3(encodedPos) : BuilderBehaviour.Instance.CurrentPreview.transform.position + workingObject.transform.localPosition;
+        var position = isDefault || isLoad ? PartModel.ToVector3(encodedPos) : BuilderBehaviour.Instance.CurrentPreview.transform.position + workingObject.transform.localPosition;
         position = new Vector3(position.x, workingObject.transform.localPosition.y, position.z);
 
         if (isDefault)
@@ -355,10 +465,22 @@ public class ItemManager : MonoBehaviour
         }
         else
         {
+            // FloorTileVoid
+            if (BuilderBehaviour.Instance.CurrentPreview.Id == 14)
+                TargetItemIndex = -1;
+
             Entity entities = entityManager.CreateEntity();
             entityManager.AddComponentData(entities, new Translation { Value = position });
             entityManager.AddComponentData(entities, new ReplaceTag { Value = TargetItemIndex });
 
+            for (int i = 0; i < BatchFloorTileContainer.childCount; i++)
+            {
+                var ft = BatchFloorTileContainer.GetChild(i);
+                entities = entityManager.CreateEntity();
+                entityManager.AddComponentData(entities, new Translation { Value = ft.localPosition });
+                entityManager.AddComponentData(entities, new ReplaceTag { Value = TargetItemIndex });
+            }
+            ClearTempFloorTileReferencing();
             ClearReferencingAndResetMode();
         }
 
@@ -366,6 +488,11 @@ public class ItemManager : MonoBehaviour
 
     public void CancelPlacement()
     {
+        if (CurrentGameMode == GameModeCode.DecorateFloor)
+        {
+            ClearTempFloorTileReferencing();
+        }
+
         if (TargetCollider != null)
         {
             var workingObject = BuildManager.Instance.PartsCollection.Parts[TargetItemIndex].gameObject;
@@ -483,9 +610,14 @@ public class ItemManager : MonoBehaviour
              (collider.localRotation.eulerAngles).ToString("F4"));
 
         if (Add)
-            temp.Add(Result);
+        {
+            if (!temp.Contains(Result))
+                temp.Add(Result);
+        }
         else if (temp.Contains(Result))
+        {
             temp.Remove(Result);
+        }
 
         ItemDataList = temp;
     }
@@ -570,6 +702,38 @@ public class ItemManager : MonoBehaviour
         set => isShowingItem = value;
     }
 
+    private List<Vector3> batchFloorTileList = null;
+    public List<Vector3> BatchFloorTileList
+    {
+        get
+        {
+            if (batchFloorTileList == null)
+                batchFloorTileList = new List<Vector3>();
+            return batchFloorTileList;
+        }
+        set => batchFloorTileList = value;
+    }
+
+    private List<Vector3> batchFloorTileCache = null;
+    public List<Vector3> BatchFloorTileCache
+    {
+        get
+        {
+            if (batchFloorTileCache == null)
+                batchFloorTileCache = new List<Vector3>();
+            return batchFloorTileCache;
+        }
+        set => batchFloorTileCache = value;
+    }
+
+    private bool hasExpandedFloorTile = true;
+    public bool HasExpandedFloorTile
+    {
+        get => hasExpandedFloorTile;
+        set => hasExpandedFloorTile = value;
+    }
+
+
     private void OnApplicationPause(bool isPaused)
     {
         // Save
@@ -607,8 +771,17 @@ public class ItemManager : MonoBehaviour
             var Position = Args[1];
             var Rotation = Args[2];
 
-            InstantiateItem(Id);
-            PlaceItem(true, Position, Rotation);
+            var pb = BuildManager.Instance.PartsCollection.Parts[Id];
+            if(pb.Type == PartType.Floor)
+            {
+                InstantiateItem(Id);
+                PlaceFloorTile(false, true, Position);
+            }
+            else
+            {
+                InstantiateItem(Id);
+                PlaceItem(true, Position, Rotation);
+            }
 
         }
 

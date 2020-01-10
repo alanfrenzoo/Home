@@ -2071,6 +2071,7 @@ MonoBehaviour:
   isUsingArea: 1
   AreaManager: {fileID: 582875743}
   PlacementContainer: {fileID: 609092405}
+  BatchFloorTileContainer: {fileID: 535144285}
   FloorTileEmpty: {fileID: 373323322431517556, guid: f4c447f6abb93944f85a220e7a510273,
     type: 3}
 --- !u!4 &281393462
@@ -4415,6 +4416,36 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 533008689}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &535144284
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 535144285}
+  m_Layer: 0
+  m_Name: BatchFloortileContainer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &535144285
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 535144284}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 9
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &566346472
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4885,7 +4916,6 @@ GameObject:
   - component: {fileID: 693802065}
   - component: {fileID: 693802064}
   - component: {fileID: 693802066}
-  - component: {fileID: 693802067}
   m_Layer: 5
   m_Name: LeftBar
   m_TagString: Untagged
@@ -4969,8 +4999,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefab: {fileID: 6217725553590147163, guid: 79e7df3f6ad74ca498a707375d811aa5, type: 3}
-  content: {fileID: 1496874803}
-  spriteList:
+  furniContent: {fileID: 1496874803}
+  floorContent: {fileID: 1447855419}
+  furniSpriteList:
   - {fileID: 21300000, guid: f8f63487690069c43b2818d339018cb2, type: 3}
   - {fileID: 21300000, guid: e502a167d54fb1549bc19767abfe50e0, type: 3}
   - {fileID: 21300000, guid: c5aa7cb7caeaba648945dd9603e64c35, type: 3}
@@ -4978,21 +5009,8 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 37deb3bfaf008ab4291c919502e99bad, type: 3}
   - {fileID: 21300000, guid: 3aa38f21834bfb2469720b06a64499da, type: 3}
   - {fileID: 21300000, guid: c997e3fce7ed9a241b6f9047a4f6404c, type: 3}
---- !u!114 &693802067
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 693802062}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 51621314cdc196d488fa2b5916f746ba, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  prefab: {fileID: 6217725553590147163, guid: 79e7df3f6ad74ca498a707375d811aa5, type: 3}
-  content: {fileID: 1447855419}
-  spriteList:
+  floorSpriteList:
+  - {fileID: 21300000, guid: a8ba3d74d39f60543b90302ea9aa7a3e, type: 3}
   - {fileID: 21300000, guid: 8c0e19c72aaf5334399db4a487210889, type: 3}
 --- !u!1001 &711156173
 PrefabInstance:
@@ -5939,8 +5957,8 @@ MonoBehaviour:
   UseDefaultPreviewMaterial: 1
   CustomPreviewMaterial: {fileID: 2100000, guid: ba6bb91b4cb59c646b9a29bdd839150a,
     type: 2}
-  PreviewAllowedColor: {r: 0.15566039, g: 0.9933778, b: 1, a: 0.5019608}
-  PreviewDeniedColor: {r: 1, g: 0, b: 0, a: 0.5019608}
+  PreviewAllowedColor: {r: 0.15566039, g: 0.9933778, b: 1, a: 0.33333334}
+  PreviewDeniedColor: {r: 1, g: 0, b: 0, a: 0.33333334}
   Parts: []
   Sockets: []
   Areas: []

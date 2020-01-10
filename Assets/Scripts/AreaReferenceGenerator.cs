@@ -18,6 +18,11 @@ public class AreaReferenceGenerator : MonoBehaviour
         plane.layer = LayerMask.NameToLayer("House");
         plane.SetActive(false);
 
+    }
+
+    public void InitFloorTile()
+    {
+        var area = transform.GetComponent<AreaBehaviour>();
         var xStart = Mathf.RoundToInt(transform.localPosition.x) - Mathf.RoundToInt(area.HalfWidth);
         var xEnd = Mathf.RoundToInt(transform.localPosition.x) + Mathf.RoundToInt(area.HalfWidth);
         var zStart = Mathf.RoundToInt(transform.localPosition.z) - Mathf.RoundToInt(area.HalfLength);
@@ -28,10 +33,9 @@ public class AreaReferenceGenerator : MonoBehaviour
             for (int z = zStart + 1; z < zEnd; z++)
             {
                 string pos = string.Format("({0}, 0, {1})", x, z);
-                ItemManager.instance.PlaceFloorTile(true, pos);
+                ItemManager.instance.PlaceFloorTile(true, false, pos);
             }
         }
-
     }
 
 }

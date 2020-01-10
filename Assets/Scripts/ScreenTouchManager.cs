@@ -86,6 +86,11 @@ public class ScreenTouchManager : MonoBehaviour
                 {
                     pressDuration = Time.time - startTimer;
                 }
+                else if (Input.GetTouch(0).phase == TouchPhase.Ended)
+                {
+                    ControlManager.instance.IsJustInstantiated = false;
+                    ResetTimer();
+                }
                 else
                 {
                     ResetTimer();
@@ -182,7 +187,10 @@ public class ScreenTouchManager : MonoBehaviour
 
     public bool CheckOnEditingItemPress()
     {
-        if (CheckOnEditingItemTouch() || ItemManager.instance.TargetEditingItem)
+        if (ItemManager.instance.CurrentGameMode == ItemManager.GameModeCode.DecorateFloor && ItemManager.instance.HasExpandedFloorTile)
+            return false;
+
+        if (Input.GetMouseButton(0) && (CheckOnEditingItemTouch() || ItemManager.instance.TargetEditingItem))
             return true;
         else
             return false;

@@ -20,12 +20,32 @@ public class ReplaceSystem : ComponentSystem
                 var i = replace_index;
 
                 Entities.WithAllReadOnly<FloorTag>().ForEach(
-                    (Entity floor_id, ref Translation floor_tranlation, ref Rotation rot) =>
+                    (Entity floor_id, ref Translation floor_tranlation, ref Rotation rot, ref FloorTag floor_index) =>
                     {
                         if (t.Equals(floor_tranlation))
                         {
-                            var mesh = BuildManager.Instance.PartsCollection.Parts[i.Value].gameObject.GetComponentInChildren<MeshFilter>().sharedMesh;
-                            var mat = BuildManager.Instance.PartsCollection.Parts[i.Value].gameObject.GetComponentInChildren<MeshRenderer>().sharedMaterial;
+                            var obj = new GameObject();
+                            obj.transform.localPosition = new Vector3(t.Value.x, t.Value.y, t.Value.z);
+
+                            Mesh mesh = null;
+                            Material mat = null;
+                            if(i.Value != -1)
+                            {
+                                mesh = BuildManager.Instance.PartsCollection.Parts[i.Value].gameObject.GetComponentInChildren<MeshFilter>().sharedMesh;
+                                mat = BuildManager.Instance.PartsCollection.Parts[i.Value].gameObject.GetComponentInChildren<MeshRenderer>().sharedMaterial;
+
+                                obj.transform.name = i.Value.ToString();
+                                ItemManager.instance.AddOrRemoveEndcodeData(obj.transform);
+                            }
+                            else
+                            {
+                                obj.transform.name = floor_index.Value.ToString();
+                                ItemManager.instance.AddOrRemoveEndcodeData(obj.transform, false);
+                            }
+
+                            Transform.DestroyImmediate(obj);
+
+                            EntityManager.SetComponentData(floor_id, new FloorTag { Value = i.Value });
                             EntityManager.SetSharedComponentData(floor_id, new RenderMesh 
                             {
                                 mesh = mesh,

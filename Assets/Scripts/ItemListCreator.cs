@@ -7,20 +7,34 @@ using UnityEngine.UI;
 public class ItemListCreator : MonoBehaviour
 {
     public GameObject prefab;
-    public Transform content;
+    public Transform furniContent;
+    public Transform floorContent;
 
-    public List<Sprite> spriteList;
+    public List<Sprite> furniSpriteList;
+    public List<Sprite> floorSpriteList;
 
     void Start()
     {
-        for (int i = 0; i < spriteList.Count; i++)
+        for (int i = 0; i < furniSpriteList.Count; i++)
         {
             var obj = Instantiate(prefab);
-            obj.transform.SetParent(content);
+            obj.transform.SetParent(furniContent);
 
-            obj.GetComponent<Item>().index = spriteList.Count != 1 ? i : BuildManager.Instance.PartsCollection.Parts.Count - 1;
-            obj.GetComponent<Item>().sprite = spriteList[i];
-            obj.GetComponent<Image>().sprite = spriteList[i];
+            obj.GetComponent<Item>().index = i;
+            obj.GetComponent<Item>().sprite = furniSpriteList[i];
+            obj.GetComponent<Image>().sprite = furniSpriteList[i];
+
+        }
+
+        for (int i = 0; i < floorSpriteList.Count; i++)
+        {
+            var obj = Instantiate(prefab);
+            obj.transform.SetParent(floorContent);
+
+            var index = i + furniSpriteList.Count;
+            obj.GetComponent<Item>().index = index;
+            obj.GetComponent<Item>().sprite = floorSpriteList[i];
+            obj.GetComponent<Image>().sprite = floorSpriteList[i];
 
         }
     }

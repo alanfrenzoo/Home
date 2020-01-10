@@ -181,7 +181,7 @@ namespace EasyBuildSystem.Runtimes.Internal.Part
 
         //[HideInInspector]
         public List<string> ExtraProperties = new List<string>();
- 
+
         #endregion Public Fields
 
         #region Private Fields
@@ -373,7 +373,8 @@ namespace EasyBuildSystem.Runtimes.Internal.Part
 
             if (state == StateType.Queue)
             {
-                gameObject.ChangeAllMaterialsInChildren(Renderers.ToArray(), PreviewMaterial);
+                if (ItemManager.instance.CurrentGameMode != ItemManager.GameModeCode.DecorateFloor)
+                    gameObject.ChangeAllMaterialsInChildren(Renderers.ToArray(), PreviewMaterial);
 
                 gameObject.ChangeAllMaterialsColorInChildren(Renderers.ToArray(), Color.clear);
 
@@ -400,10 +401,17 @@ namespace EasyBuildSystem.Runtimes.Internal.Part
             }
             else if (state == StateType.Preview)
             {
-                gameObject.ChangeAllMaterialsInChildren(Renderers.ToArray(), PreviewMaterial);
-
-                gameObject.ChangeAllMaterialsColorInChildren(Renderers.ToArray(),
-                    BuilderBehaviour.Instance.AllowPlacement ? BuildManager.Instance.PreviewAllowedColor : BuildManager.Instance.PreviewDeniedColor);
+                if (ItemManager.instance.CurrentGameMode == ItemManager.GameModeCode.DecorateFloor)
+                {
+                    gameObject.ChangeAllMaterialsColorInChildren(Renderers.ToArray(),
+                        BuilderBehaviour.Instance.AllowPlacement ? new Color(1f, 1f, 1f) : BuildManager.Instance.PreviewDeniedColor);
+                }
+                else
+                {
+                    gameObject.ChangeAllMaterialsInChildren(Renderers.ToArray(), PreviewMaterial);
+                    gameObject.ChangeAllMaterialsColorInChildren(Renderers.ToArray(),
+                            BuilderBehaviour.Instance.AllowPlacement ? BuildManager.Instance.PreviewAllowedColor : BuildManager.Instance.PreviewDeniedColor);
+                }
 
                 foreach (GameObject Obj in PreviewDisableObjects)
                     if (Obj)
@@ -429,10 +437,17 @@ namespace EasyBuildSystem.Runtimes.Internal.Part
             }
             else if (state == StateType.Edit)
             {
-                gameObject.ChangeAllMaterialsInChildren(Renderers.ToArray(), PreviewMaterial);
-
-                gameObject.ChangeAllMaterialsColorInChildren(Renderers.ToArray(),
-                    BuilderBehaviour.Instance.AllowEdition ? BuildManager.Instance.PreviewAllowedColor : BuildManager.Instance.PreviewDeniedColor);
+                if (ItemManager.instance.CurrentGameMode == ItemManager.GameModeCode.DecorateFloor)
+                {
+                    gameObject.ChangeAllMaterialsColorInChildren(Renderers.ToArray(),
+                        BuilderBehaviour.Instance.AllowPlacement ? new Color(1f, 1f, 1f) : BuildManager.Instance.PreviewDeniedColor);
+                }
+                else
+                {
+                    gameObject.ChangeAllMaterialsInChildren(Renderers.ToArray(), PreviewMaterial);
+                    gameObject.ChangeAllMaterialsColorInChildren(Renderers.ToArray(),
+                            BuilderBehaviour.Instance.AllowPlacement ? BuildManager.Instance.PreviewAllowedColor : BuildManager.Instance.PreviewDeniedColor);
+                }
 
                 foreach (GameObject Obj in PreviewDisableObjects)
                     if (Obj)
@@ -783,7 +798,7 @@ namespace EasyBuildSystem.Runtimes.Internal.Part
             if (!UseTerrainPrevention)
                 return false;
 
-            Collider[] Colliders = PhysicExtension.GetNeighborsTypesByBox<Collider>(GetWorldPartTerrainBounds().center, 
+            Collider[] Colliders = PhysicExtension.GetNeighborsTypesByBox<Collider>(GetWorldPartTerrainBounds().center,
                 TerrainBounds.extents, transform.rotation, Physics.AllLayers);
 
             for (int i = 0; i < Colliders.Length; i++)
