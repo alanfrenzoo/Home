@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AdvancedFeatures: 1
-  Id: 14
+  Id: 13
   Name: FloorTileVoid
   Type: 4
   OccupancyParts: []

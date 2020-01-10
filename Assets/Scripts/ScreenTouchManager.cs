@@ -71,6 +71,7 @@ public class ScreenTouchManager : MonoBehaviour
                 if (Input.GetTouch(0).phase == TouchPhase.Began)
                 {
                     startTimer = Time.time;
+                    startPos = Input.GetTouch(0).position;
                 }
             }
             else if (Input.touchCount == 2)
@@ -248,7 +249,8 @@ public class ScreenTouchManager : MonoBehaviour
 #endif
         if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Ended)
         {
-            if (Input.GetTouch(0).deltaPosition == Vector2.zero)
+            Vector3 pos = Input.GetTouch(0).position;
+            if (startPos == pos)
             {
                 return true;
             }

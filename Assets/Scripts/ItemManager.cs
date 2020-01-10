@@ -160,7 +160,7 @@ public class ItemManager : MonoBehaviour
                         {
                             vect = new Vector3(x, 0.001f, z);
 
-                            if(!(x == Mathf.RoundToInt(newPos.x) && z == Mathf.RoundToInt(newPos.z)))
+                            if (!(x == Mathf.RoundToInt(newPos.x) && z == Mathf.RoundToInt(newPos.z)))
                                 currentArea.Add(vect);
 
                             if (!temp.Contains(vect) && !(x == Mathf.RoundToInt(newPos.x) && z == Mathf.RoundToInt(newPos.z)))
@@ -174,7 +174,7 @@ public class ItemManager : MonoBehaviour
                     //Removing Floortile
 
                     var difference = temp.Except(currentArea).ToList();
-                    foreach(var v in difference)
+                    foreach (var v in difference)
                     {
                         for (int i = 0; i < BatchFloorTileContainer.childCount; i++)
                         {
@@ -211,7 +211,7 @@ public class ItemManager : MonoBehaviour
         ft.transform.localPosition = pos;
 
         var pb = ft.transform.GetComponent<PartBehaviour>();
-        if(pb.CheckAreas())
+        if (pb.CheckAreas())
             ft.ChangeAllMaterialsColorInChildren(pb.Renderers.ToArray(), BuildManager.Instance.PreviewDeniedColor);
     }
 
@@ -466,7 +466,7 @@ public class ItemManager : MonoBehaviour
         else
         {
             // FloorTileVoid
-            if (BuilderBehaviour.Instance.CurrentPreview.Id == 14)
+            if (BuilderBehaviour.Instance.CurrentPreview.Id == 13)
                 TargetItemIndex = -1;
 
             Entity entities = entityManager.CreateEntity();
@@ -488,10 +488,7 @@ public class ItemManager : MonoBehaviour
 
     public void CancelPlacement()
     {
-        if (CurrentGameMode == GameModeCode.DecorateFloor)
-        {
-            ClearTempFloorTileReferencing();
-        }
+        ClearTempFloorTileReferencing();
 
         if (TargetCollider != null)
         {
@@ -676,6 +673,7 @@ public class ItemManager : MonoBehaviour
             }
             else if (currentGameMode == GameModeCode.DecorateFurniture)
             {
+                CancelPlacement();
                 AreaManager.transform.GetChild(0).gameObject.SetActive(true);
                 ShowHideAllFurniture(true);
             }
@@ -772,7 +770,7 @@ public class ItemManager : MonoBehaviour
             var Rotation = Args[2];
 
             var pb = BuildManager.Instance.PartsCollection.Parts[Id];
-            if(pb.Type == PartType.Floor)
+            if (pb.Type == PartType.Floor)
             {
                 InstantiateItem(Id);
                 PlaceFloorTile(false, true, Position);
