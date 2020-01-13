@@ -12,15 +12,29 @@ public class ItemListCreator : MonoBehaviour
 
     public List<Sprite> furniSpriteList;
     public List<Sprite> floorSpriteList;
+    private List<int> furniToPartCollectionIndex;
+    private List<int> floorToPartCollectionIndex;
 
     void Start()
     {
+        furniToPartCollectionIndex = new List<int>();
+        floorToPartCollectionIndex = new List<int>();
+
+        for(int i = 0; i < BuildManager.Instance.PartsCollection.Parts.Count; i++)
+        {
+            var pt = BuildManager.Instance.PartsCollection.Parts[i];
+            if (pt.Type == EasyBuildSystem.Runtimes.Internal.Part.PartType.Floor)
+                floorToPartCollectionIndex.Add(i);
+            else
+                furniToPartCollectionIndex.Add(i);
+        }
+
         for (int i = 0; i < furniSpriteList.Count; i++)
         {
             var obj = Instantiate(prefab);
             obj.transform.SetParent(furniContent);
 
-            obj.GetComponent<Item>().index = i;
+            obj.GetComponent<Item>().index = furniToPartCollectionIndex[i];
             obj.GetComponent<Item>().sprite = furniSpriteList[i];
             obj.GetComponent<Image>().sprite = furniSpriteList[i];
 
@@ -31,12 +45,15 @@ public class ItemListCreator : MonoBehaviour
             var obj = Instantiate(prefab);
             obj.transform.SetParent(floorContent);
 
-            var index = i + furniSpriteList.Count;
-            obj.GetComponent<Item>().index = index;
+            obj.GetComponent<Item>().index = floorToPartCollectionIndex[i];
             obj.GetComponent<Item>().sprite = floorSpriteList[i];
             obj.GetComponent<Image>().sprite = floorSpriteList[i];
 
         }
+
+        furniToPartCollectionIndex.Clear();
+        floorToPartCollectionIndex.Clear();
+
     }
 
 }

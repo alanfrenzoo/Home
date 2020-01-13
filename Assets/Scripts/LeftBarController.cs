@@ -51,8 +51,11 @@ public class LeftBarController : MonoBehaviour
 
     }
 
-    private void toggleFurniture()
+    private void toggleFurniture(bool AutoEnterMode = false)
     {
+        if (!AutoEnterMode)
+            ItemManager.instance.CancelPlacement();
+
         ItemManager.instance.CurrentGameMode = ItemManager.GameModeCode.DecorateFurniture;
 
         FloorViewport.SetActive(false);
@@ -78,7 +81,7 @@ public class LeftBarController : MonoBehaviour
         DecorateMark.SetActive(true);
         animator.Play("showLeftBar");
 
-        toggleFurniture();
+        toggleFurniture(true);
     }
 
     public void EnterViewMode()

@@ -260,7 +260,7 @@ public class ItemManager : MonoBehaviour
         // Remove Temp Data
         AddOrRemoveEndcodeData(TargetCollider.transform, false);
 
-        // with destroy
+        // with destroy option
         ControlManager.instance.EnableBuildContent(true);
         ControlManager.instance.leftBarController.EnterDecorateMode();
 
@@ -298,11 +298,16 @@ public class ItemManager : MonoBehaviour
         // Efficiently instantiate a bunch of entities from the already converted entity prefab
         var instance = entityManager.Instantiate(prefab);
 
-        var position = isFirstLoad ? PartModel.ToVector3(encodedPos) : BuilderBehaviour.Instance.CurrentPreview.transform.position + workingObject.transform.localPosition;
-        var rotation = isFirstLoad ? Quaternion.Euler(PartModel.ToVector3(encodedRot)) : Quaternion.Euler(BuilderBehaviour.Instance.CurrentPreview.transform.eulerAngles);
+        //var position = isFirstLoad ? PartModel.ToVector3(encodedPos) : BuilderBehaviour.Instance.CurrentPreview.transform.position + workingObject.transform.localPosition;
+        //var rotation = isFirstLoad ? Quaternion.Euler(PartModel.ToVector3(encodedRot)) : Quaternion.Euler(BuilderBehaviour.Instance.CurrentPreview.transform.eulerAngles);
+        var position = isFirstLoad ? PartModel.ToVector3(encodedPos) : BuilderBehaviour.Instance.CurrentPreview.transform.GetChild(0).transform.position;
+        var rotation = isFirstLoad ? Quaternion.Euler(PartModel.ToVector3(encodedRot)) : Quaternion.Euler(BuilderBehaviour.Instance.CurrentPreview.transform.GetChild(0).transform.eulerAngles);
+        var scale = isFirstLoad ? Vector3.one : BuilderBehaviour.Instance.CurrentPreview.transform.GetChild(0).transform.localScale;
 
         entityManager.SetComponentData(instance, new Translation { Value = position });
         entityManager.SetComponentData(instance, new Rotation { Value = rotation });
+        if (scale != Vector3.one)
+            entityManager.SetComponentData(instance, new NonUniformScale { Value = scale });
 
         if (BuilderBehaviour.Instance.CurrentPreview.Type == EasyBuildSystem.Runtimes.Internal.Part.PartType.Floor)
             entityManager.AddComponentData(instance, new FloorTag { Value = TargetItemIndex });
@@ -310,13 +315,22 @@ public class ItemManager : MonoBehaviour
             entityManager.AddComponentData(instance, new FurniTag { Value = TargetItemIndex });
 
         var colliderList = workingObject.GetComponentsInChildren<MeshCollider>();
-        if (colliderList.Length > 0)
+        var boxColliderList = workingObject.GetComponentsInChildren<BoxCollider>();
+        if (colliderList.Length > 0 || boxColliderList.Length > 0)
         {
             var colliderToSpawn = new GameObject(TargetItemIndex.ToString());
-            colliderToSpawn.AddComponent<MeshCollider>();
-            colliderToSpawn.GetComponent<MeshCollider>().sharedMesh = workingObject.GetComponentInChildren<MeshCollider>().sharedMesh;
+            if (colliderList.Length > 0)
+            {
+                colliderToSpawn.AddComponent<MeshCollider>();
+                colliderToSpawn.GetComponent<MeshCollider>().sharedMesh = workingObject.GetComponentInChildren<MeshCollider>().sharedMesh;
+            } 
+            else
+            {
+                colliderToSpawn.AddComponent<BoxCollider>();
+            }
             colliderToSpawn.transform.position = position;
             colliderToSpawn.transform.rotation = rotation;
+            colliderToSpawn.transform.localScale = scale;
             colliderToSpawn.transform.SetParent(PlacementContainer);
             colliderToSpawn.layer = LayerMask.NameToLayer("Furniture");
 
@@ -663,17 +677,12 @@ public class ItemManager : MonoBehaviour
             currentGameMode = value;
             if (currentGameMode == GameModeCode.View)
             {
-                // Clear up editing item status
-                // i.e. validate or cancel placement?
-                // Todo: Pop up warning
-
                 CancelPlacement();
                 AreaManager.transform.GetChild(0).gameObject.SetActive(false);
 
             }
             else if (currentGameMode == GameModeCode.DecorateFurniture)
             {
-                CancelPlacement();
                 AreaManager.transform.GetChild(0).gameObject.SetActive(true);
                 ShowHideAllFurniture(true);
             }

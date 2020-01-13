@@ -28,7 +28,9 @@ public class DestroySystem : ComponentSystem
                             BuilderBehaviour.Instance.ChangeMode(BuildMode.Placement);
 
                             BuilderBehaviour.Instance.CreatePreview(BuilderBehaviour.Instance.SelectedPrefab.gameObject);
+                            //Todo: Handle Child component has position offset
                             BuilderBehaviour.Instance.CurrentPreview.transform.position = ItemManager.instance.TargetCollider.transform.position;
+                            BuilderBehaviour.Instance.CurrentPreview.transform.position = new Vector3(BuilderBehaviour.Instance.CurrentPreview.transform.position.x, 0f, BuilderBehaviour.Instance.CurrentPreview.transform.position.z);
                             var y = ItemManager.instance.TargetCollider.transform.rotation.eulerAngles.y - BuilderBehaviour.Instance.CurrentPreview.RotationAxis.y - BuilderBehaviour.Instance.CurrentRotationOffset.y;
                             var rotateAxis = new Vector3(0f, y, 0f);
                             BuilderBehaviour.Instance.RotatePreview(rotateAxis);
