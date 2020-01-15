@@ -386,13 +386,13 @@ public class ItemManager : MonoBehaviour
                 if (desk == null)
                 {
                     UnityEngine.Debug.Log("desk == null");
-                    desk = new Desk(colliderToSpawn.transform.position, new Vector3[] { spotdl.transform.position, spotdr.transform.position });
+                    desk = new Desk(colliderToSpawn.transform.position, new Transform[] { spotdl.transform, spotdr.transform });
                     GameDataManager.Instance.DeskDict.Add(desk.Position, desk);
                 }
                 else
                 {
                     desk.Position = colliderToSpawn.transform.position;
-                    desk.Spots = new Vector3[] { spotdl.transform.position, spotdr.transform.position };
+                    desk.Spots = new Transform[] { spotdl.transform, spotdr.transform };
                 }
 
                 isDesk = true;
@@ -402,7 +402,7 @@ public class ItemManager : MonoBehaviour
             {
                 if (isDesk)
                 {
-                    Chair[] newChairArr = new Chair[colliderList.Length - 1];
+                    Chair[] newChairArr = new Chair[colliderList.Length - 2];
                     for (int i = 1; i < colliderList.Length - 1; i++)
                     {
                         var child = new GameObject("");
@@ -423,7 +423,7 @@ public class ItemManager : MonoBehaviour
                         spotcr.transform.localPosition = new Vector3(1f, 0f, 0f);
                         spotcr.transform.localRotation = Quaternion.Euler(new Vector3(0f, -90f, 0f));
 
-                        newChairArr[i - 1] = new Chair(child.transform.position, new Vector3[] { spotcl.transform.position, spotcr.transform.position }, desk);
+                        newChairArr[i - 1] = new Chair(child.transform.position, new Transform[] { spotcl.transform, spotcr.transform }, desk);
                     }
                     desk.Chairs = newChairArr;
                     GameDataManager.Instance.DeskDict[colliderToSpawn.transform.position] = desk;

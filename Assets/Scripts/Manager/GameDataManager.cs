@@ -55,6 +55,7 @@ public class GameDataManager : MonoBehaviour
         set
         {
             availableChairList = value;
+            UnityEngine.Debug.Log("Set availableChairList");
         }
     }
 

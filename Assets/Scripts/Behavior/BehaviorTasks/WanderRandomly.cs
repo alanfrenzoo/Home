@@ -42,7 +42,6 @@ public class WanderRandomly : Conditional
                 return TaskStatus.Failure;
             }
         }
-        UnityEngine.Debug.Log("targetsVar == null");
         return TaskStatus.Failure;
     }
 

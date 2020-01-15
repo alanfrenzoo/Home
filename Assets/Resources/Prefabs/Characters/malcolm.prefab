@@ -1315,7 +1315,7 @@ GameObject:
   - component: {fileID: 2799130641931652402}
   m_Layer: 0
   m_Name: malcolm
-  m_TagString: Untagged
+  m_TagString: Customer
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

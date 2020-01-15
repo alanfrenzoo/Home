@@ -10410,12 +10410,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PasserbyPoints: {fileID: 255693397}
-  PeopleWandering: 40
+  PeopleWanderingSize: 20
+  StaffSize: 1
   Josh: {fileID: 7176373275797103183, guid: 56f71b750045c27408951ab70fedf5a2, type: 3}
   Malcolm: {fileID: 4532100000404354554, guid: 491a79d0e0318d24fbd385ab946a248d, type: 3}
   Megan: {fileID: 4360588324308471552, guid: afa5d1c227e9edc40bc3e46f11815738, type: 3}
   Remy: {fileID: 9097560196324391503, guid: 39427e90590c0f74fa56e4b932d6ff6f, type: 3}
   WanderAI: {fileID: 11400000, guid: 39c4c452aca3a4b468a245adf6d87ab7, type: 2}
+  StaffAI: {fileID: 11400000, guid: 9ded91aa4d34efd44843b080d3141008, type: 2}
+  CustomerAI: {fileID: 11400000, guid: 13e62d66e41ae7a4d9c03a9fba755712, type: 2}
 --- !u!4 &1801202193
 Transform:
   m_ObjectHideFlags: 0

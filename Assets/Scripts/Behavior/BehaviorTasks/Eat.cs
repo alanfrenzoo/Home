@@ -5,25 +5,28 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-public class Roam : BehaviorDesigner.Runtime.Tasks.Movement.Seek
+public class Eat : BehaviorDesigner.Runtime.Tasks.Wait
 {
     public SharedGameObject Self;
+    public SharedBool WaitForServe;
 
     public override void OnStart()
     {
+        WaitForServe.Value = false;
+
         if (Self != null)
         {
             GPUSkinningPlayerMono mono = Self.Value.GetComponent<GPUSkinningPlayerMono>();
             if (mono != null)
             {
                 GPUSkinningPlayer player = mono.Player;
-                if (player!=null)
+                if (player != null)
                 {
-                    player.CrossFade("Walk",0.2f);
+                    player.CrossFade("Stand", 0.2f);
                 }
             }
         }
-        
+
         base.OnStart();
     }
 

@@ -5,11 +5,11 @@ using UnityEngine;
 public class Chair : Furniture
 {
     public int ChairId;
-    public Vector3[] Spots;
+    public Transform[] Spots;
     public bool Available;
     public Desk Desk;
 
-    public Chair(Vector3 position, Vector3[] spots, Desk desk)
+    public Chair(Vector3 position, Transform[] spots, Desk desk)
     {
         Position = position;
         Spots = spots;
