@@ -353,7 +353,7 @@ public class ItemManager : MonoBehaviour
                 GameDataManager.Instance.RegisterDict.TryGetValue(colliderToSpawn.transform.position, out register);
                 if (register == null)
                 {
-                    UnityEngine.Debug.Log("Register == null");
+                    //UnityEngine.Debug.Log("Register == null");
                     register = new Register(colliderToSpawn.transform.position, new Vector3[] { spotrl.transform.position, spotrr.transform.position });
                     GameDataManager.Instance.RegisterDict.Add(register.Position, register);
                 }
@@ -385,7 +385,7 @@ public class ItemManager : MonoBehaviour
                 GameDataManager.Instance.DeskDict.TryGetValue(colliderToSpawn.transform.position, out desk);
                 if (desk == null)
                 {
-                    UnityEngine.Debug.Log("desk == null");
+                    //UnityEngine.Debug.Log("desk == null");
                     desk = new Desk(colliderToSpawn.transform.position, new Transform[] { spotdl.transform, spotdr.transform });
                     GameDataManager.Instance.DeskDict.Add(desk.Position, desk);
                 }

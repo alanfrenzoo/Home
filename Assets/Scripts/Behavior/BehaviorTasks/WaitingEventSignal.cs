@@ -28,8 +28,8 @@ namespace BehaviorDesigner.Runtime.Tasks
 
         public override void OnStart()
         {
-            UnityEngine.Debug.Log("owner.Value == null?: " + owner.Value == null);
-            UnityEngine.Debug.Log("Owner == null?: " + Owner == null);
+            //UnityEngine.Debug.Log("owner.Value == null?: " + owner.Value == null);
+            //UnityEngine.Debug.Log("Owner == null?: " + Owner == null);
             // Let the behavior tree know that we are interested in receiving the event specified
             if (!registered)
             {

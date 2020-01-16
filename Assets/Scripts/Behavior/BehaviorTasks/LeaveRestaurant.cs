@@ -41,7 +41,7 @@ public class LeaveRestaurant : BehaviorDesigner.Runtime.Tasks.Movement.Seek
                     Chair chair = GameDataManager.Instance.UnavailableChairList.ElementAt(i);
 
                     CitizenManager.instance.AddToAvailableChairList(chair);
-                    UnityEngine.Debug.Log("Add Back To AvailableChairList: "+GameDataManager.Instance.AvailableChairList.Count);
+                    //UnityEngine.Debug.Log("Add Back To AvailableChairList: "+GameDataManager.Instance.AvailableChairList.Count);
                     break;
                 }
             }

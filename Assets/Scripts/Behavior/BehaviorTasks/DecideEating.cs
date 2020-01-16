@@ -25,14 +25,20 @@ public class DecideEating : Conditional
         //generating the seat
         int seatCount = GameDataManager.Instance.AvailableChairList.Count;
         int chairIndex = random.Next(0, seatCount);
-        UnityEngine.Debug.Log("chairIndex: " + chairIndex);
-        Chair chair = GameDataManager.Instance.AvailableChairList.ElementAt(chairIndex);
-        int chairSpotIndex = random.Next(0, chair.Spots.Length);
-        ChairSpot.Value = chair.Spots[chairSpotIndex].gameObject;
-        int deskSpotIndex = random.Next(0, chair.Desk.Spots.Length);
-        DeskSpot.Value = chair.Desk.Spots[deskSpotIndex].gameObject;
-
-        CitizenManager.instance.RemoveFromAvailableChairList(chair);
+        //UnityEngine.Debug.Log("chairIndex: " + chairIndex);
+        if (seatCount > 0)
+        {
+            Chair chair = GameDataManager.Instance.AvailableChairList.ElementAt(chairIndex);
+            int chairSpotIndex = random.Next(0, chair.Spots.Length);
+            ChairSpot.Value = chair.Spots[chairSpotIndex].gameObject;
+            int deskSpotIndex = random.Next(0, chair.Desk.Spots.Length);
+            DeskSpot.Value = chair.Desk.Spots[deskSpotIndex].gameObject;
+            CitizenManager.instance.RemoveFromAvailableChairList(chair);
+        }
+        else
+        {
+            UnityEngine.Debug.LogError("No Available seat!!! Cannot do anyting!!!");
+        }
         //CitizenManager.instance.UpdateAiAvailableChairList();
 
 

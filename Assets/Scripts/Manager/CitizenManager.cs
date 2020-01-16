@@ -86,7 +86,7 @@ public class CitizenManager : MonoBehaviour
         bool producing = false;
         if (haveDesk)
         {
-            UnityEngine.Debug.Log("haveDesk");
+            //UnityEngine.Debug.Log("haveDesk");
             Dictionary<Vector3, Desk> deskDict = GameDataManager.Instance.DeskDict;
 
             for (int i = 0; i < DeskCount; i++)
@@ -94,7 +94,7 @@ public class CitizenManager : MonoBehaviour
                 Desk desk = deskDict.ElementAt(i).Value;
                 if (desk.Chairs != null)
                 {
-                    UnityEngine.Debug.Log("desk.Chairs.Length: " + desk.Chairs.Length);
+                    //UnityEngine.Debug.Log("desk.Chairs.Length: " + desk.Chairs.Length);
                     for (int j = 0; j < desk.Chairs.Length; j++)
                     {
                         GameDataManager.Instance.AvailableChairList.Add(desk.Chairs[j]);
@@ -111,15 +111,15 @@ public class CitizenManager : MonoBehaviour
             }
 
             int waitForServe = random.Next(1, CustomerArr.Length);
-            UnityEngine.Debug.Log("CustomerArr.Length: " + CustomerArr.Length);
-            UnityEngine.Debug.Log("waitForServe: " + waitForServe);
+            //UnityEngine.Debug.Log("CustomerArr.Length: " + CustomerArr.Length);
+            //UnityEngine.Debug.Log("waitForServe: " + waitForServe);
             for (int i = 0; i < waitForServe; i++)
             {
                 int chairIndex = random.Next(0, GameDataManager.Instance.AvailableChairList.Count);
                 int destinationIndex = random.Next(0, points.Count);
-                UnityEngine.Debug.Log("i: " + i);
-                UnityEngine.Debug.Log("GameDataManager.Instance.AvailableChairList.Count: " + GameDataManager.Instance.AvailableChairList.Count);
-                UnityEngine.Debug.Log("chairIndex: " + chairIndex);
+                //UnityEngine.Debug.Log("i: " + i);
+                //UnityEngine.Debug.Log("GameDataManager.Instance.AvailableChairList.Count: " + GameDataManager.Instance.AvailableChairList.Count);
+                //UnityEngine.Debug.Log("chairIndex: " + chairIndex);
                 CustomerArr[i] = Instantiate(Malcolm, GameDataManager.Instance.AvailableChairList.ElementAt(chairIndex).Spots.ElementAt(0).position, Quaternion.identity);
 
                 BehaviorTree bt = CustomerArr[i].GetComponent<BehaviorTree>();
