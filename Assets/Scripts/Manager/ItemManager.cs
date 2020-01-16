@@ -17,6 +17,7 @@ using Unity.Rendering;
 using Unity.Transforms;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.UI;
 
 public class ItemManager : MonoBehaviour
@@ -33,6 +34,7 @@ public class ItemManager : MonoBehaviour
 
     public bool isUsingArea = true;
     public GameObject AreaManager;
+    public NavMeshSurface FurnitureNavMeshSurface;
     public Transform PlacementContainer;
     public Transform BatchFloorTileContainer;
 
@@ -406,6 +408,7 @@ public class ItemManager : MonoBehaviour
                     for (int i = 1; i < colliderList.Length - 1; i++)
                     {
                         var child = new GameObject("");
+                        child.layer = LayerMask.NameToLayer("Furniture");
                         child.AddComponent<MeshCollider>();
                         child.GetComponent<MeshCollider>().sharedMesh = colliderList[i].sharedMesh;
                         child.transform.SetParent(colliderToSpawn.transform);
@@ -433,6 +436,8 @@ public class ItemManager : MonoBehaviour
 
         // Update the NavMesh
         EventHandlers.PlacedPart(null, null);
+        if (FurnitureNavMeshSurface != null)
+            FurnitureNavMeshSurface.BuildNavMesh();
 
         // Finish Up the remaining flow
 
@@ -547,6 +552,8 @@ public class ItemManager : MonoBehaviour
             Destroy(TargetCollider);
             // Update Nav Mesh
             EventHandlers.PlacedPart(null, null);
+            if (FurnitureNavMeshSurface != null)
+                FurnitureNavMeshSurface.BuildNavMesh();
         }
 
         ClearReferencingAndResetMode();
