@@ -1682,13 +1682,14 @@ GameObject:
   - component: {fileID: 237705227}
   - component: {fileID: 237705229}
   - component: {fileID: 237705228}
+  - component: {fileID: 237705230}
   m_Layer: 12
   m_Name: HouseBakeArea
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &237705227
 Transform:
   m_ObjectHideFlags: 0
@@ -1749,6 +1750,20 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 237705226}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!64 &237705230
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 237705226}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 0
+  m_CookingOptions: 30
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1001 &238417801
 PrefabInstance:
@@ -2070,6 +2085,7 @@ MonoBehaviour:
   isUsingECS: 1
   isUsingArea: 1
   AreaManager: {fileID: 582875743}
+  FurnitureNavMeshSurface: {fileID: 1135150990}
   PlacementContainer: {fileID: 609092405}
   BatchFloorTileContainer: {fileID: 535144285}
   FloorTileEmpty: {fileID: 373323322431517556, guid: f4c447f6abb93944f85a220e7a510273,
@@ -7402,15 +7418,15 @@ MonoBehaviour:
   m_Center: {x: 0, y: 2, z: 0}
   m_LayerMask:
     serializedVersion: 2
-    m_Bits: 6144
-  m_UseGeometry: 0
+    m_Bits: 7168
+  m_UseGeometry: 1
   m_DefaultArea: 0
   m_IgnoreNavMeshAgent: 1
   m_IgnoreNavMeshObstacle: 1
   m_OverrideTileSize: 0
   m_TileSize: 256
   m_OverrideVoxelSize: 0
-  m_VoxelSize: 0.06666667
+  m_VoxelSize: 0.083333336
   m_BuildHeightMesh: 0
   m_NavMeshData: {fileID: 23800000, guid: 04efe63ca5df6d7419f76d68bef1d22f, type: 2}
 --- !u!1 &1135721141
